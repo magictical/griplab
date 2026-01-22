@@ -132,7 +132,9 @@ supabase/migrations/20241030014800_create_users_table.sql
 
 ## Environment Variables
 
-`.env.example` 참고하여 `.env` 파일 생성:
+모든 환경 변수는 프로젝트 루트의 `.env` 파일에 설정합니다.
+
+`.env` 파일 구조:
 
 ```bash
 # Clerk Authentication
@@ -142,12 +144,20 @@ NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
 NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
 
+# Clerk Webhook (사용자 자동 동기화용)
+CLERK_WEBHOOK_SIGNING_SECRET=
+
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
-NEXT_PUBLIC_STORAGE_BUCKET=uploads
+NEXT_PUBLIC_STORAGE_BUCKET=data-griplab
 ```
+
+> **⚠️ 중요**: 
+> - `.env` 파일은 `.gitignore`에 포함되어 Git에 커밋되지 않습니다
+> - `SUPABASE_SERVICE_ROLE_KEY`는 관리자 권한이므로 절대 공개하지 마세요
+> - 실제 API 키 값은 각 서비스의 Dashboard에서 발급받아 입력하세요
 
 ## Development Guidelines
 

@@ -180,7 +180,7 @@ npm install -g pnpm
 1. Supabase Dashboard → **Storage** 메뉴
 2. **"New bucket"** 클릭
 3. 버킷 정보 입력:
-   - **Name**: `uploads` (`.env.example`과 동일하게)
+   - **Name**: `data-griplab` (`.env` 파일의 `NEXT_PUBLIC_STORAGE_BUCKET`와 동일하게)
    - **Public bucket**: 필요에 따라 선택
      - Public: 누구나 URL로 파일 접근 가능
      - Private: 인증된 사용자만 접근 (RLS 정책 필요)
@@ -216,12 +216,12 @@ cp .env.example .env
 **6-3. Supabase 환경 변수 설정**
 
 1. Supabase Dashboard → **Settings** → **API**
-2. 다음 값들을 복사하여 `.env` 파일에 입력:
+2. 다음 값들을 `.env` 파일에 입력:
    ```env
    NEXT_PUBLIC_SUPABASE_URL="<Project URL>"
    NEXT_PUBLIC_SUPABASE_ANON_KEY="<anon public key>"
    SUPABASE_SERVICE_ROLE_KEY="<service_role secret key>"
-   NEXT_PUBLIC_STORAGE_BUCKET="uploads"
+   NEXT_PUBLIC_STORAGE_BUCKET="data-griplab"
    ```
 
 > **⚠️ 주의**: `service_role` 키는 모든 RLS를 우회하는 관리자 권한이므로 절대 공개하지 마세요!
@@ -229,7 +229,7 @@ cp .env.example .env
 **6-4. Clerk 환경 변수 설정**
 
 1. Clerk Dashboard → **API Keys**
-2. 다음 값들을 복사하여 `.env` 파일에 입력:
+2. 다음 값들을 `.env` 파일에 입력:
    ```env
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="<Publishable Key>"
    CLERK_SECRET_KEY="<Secret Key>"
@@ -237,6 +237,35 @@ cp .env.example .env
    NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL="/"
    NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL="/"
    ```
+
+**6-5. Clerk 웹훅 설정 (사용자 자동 동기화)**
+
+Clerk에서 발생하는 이벤트를 받아 Supabase에 자동으로 동기화하려면 웹훅을 설정해야 합니다.
+
+1. **로컬 개발 환경 (ngrok 필요)**:
+   ```bash
+   # ngrok 설치 및 실행
+   ngrok http 3000
+   # 생성된 HTTPS URL을 복사 (예: https://abc123.ngrok.io)
+   ```
+
+2. **Clerk Dashboard에서 웹훅 설정**:
+   - Clerk Dashboard → **Webhooks** → **Add Endpoint**
+   - **Endpoint URL**: 
+     - 로컬: `https://your-ngrok-url.ngrok.io/api/webhooks/clerk`
+     - 프로덕션: `https://your-domain.com/api/webhooks/clerk`
+   - **Events**: 다음 이벤트 선택
+     - `user.created` - 새 사용자 생성 시
+     - `user.updated` - 사용자 정보 업데이트 시
+   - **Signing Secret** 복사 후 `.env` 파일에 추가:
+     ```env
+     CLERK_WEBHOOK_SIGNING_SECRET="whsec_..."
+     ```
+
+> **⚠️ 중요**: 
+> - 로컬 개발 환경에서는 `localhost:3000`을 사용할 수 없습니다. ngrok 같은 터널링 서비스가 필요합니다.
+> - 프로덕션 환경에서는 실제 도메인을 사용하세요.
+> - 웹훅 시크릿은 절대 공개하지 마세요!
 
 #### 7. Cursor MCP 설정 (선택사항)
 
@@ -301,6 +330,30 @@ pnpm start
 # 린팅
 pnpm lint
 ```
+
+## 문제 해결
+
+### Storage API "alg" (Algorithm) 에러
+
+Storage API 사용 시 `"alg" (Algorithm) Header Parameter value not allowed` 에러가 발생하는 경우:
+
+**원인**: Supabase에서 Clerk를 Third-Party Auth로 설정하지 않았거나, JWT 알고리즘이 호환되지 않음
+
+**해결 방법**:
+
+1. **Supabase Dashboard 설정 확인** (가장 중요!)
+   - Supabase Dashboard → **Settings** → **Authentication** → **Providers**
+   - **"Third-Party Auth"** 섹션에서 Clerk가 등록되어 있는지 확인
+   - 등록되지 않았다면 [README의 Clerk + Supabase 통합 섹션](#3-clerk--supabase-통합)을 따라 설정
+
+2. **Clerk Frontend API URL 확인**
+   - Clerk Dashboard → **API Keys** → Frontend API URL 복사
+   - Supabase의 JWT Issuer와 JWKS Endpoint에 올바르게 입력되었는지 확인
+
+3. **자세한 해결 방법**
+   - [`docs/troubleshooting/storage-alg-error.md`](docs/troubleshooting/storage-alg-error.md) 문서 참고
+
+**참고**: 코드는 이미 올바르게 설정되어 있습니다. 문제는 대부분 Supabase Dashboard 설정에서 발생합니다.
 
 ## 추가 설정 및 팁
 

@@ -24,7 +24,7 @@ export function getServiceRoleClient() {
 
   if (!supabaseUrl || !supabaseServiceRoleKey) {
     throw new Error(
-      "Supabase URL or Service Role Key is missing. Please check your environment variables."
+      "Supabase URL or Service Role Key is missing. Please check your .env file and ensure all required environment variables are set."
     );
   }
 

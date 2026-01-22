@@ -27,7 +27,18 @@ export function createClerkSupabaseClient() {
 
   return createClient(supabaseUrl, supabaseKey, {
     async accessToken() {
-      return (await auth()).getToken();
+      try {
+        // Supabase용 JWT 템플릿 사용 (Storage API 호환성)
+        // 템플릿이 설정되지 않은 경우 기본 토큰 사용
+        const authInstance = await auth();
+        const token = await authInstance.getToken({ template: "supabase" });
+        return token ?? (await authInstance.getToken()) ?? null;
+      } catch (error) {
+        // 템플릿이 없는 경우 기본 토큰으로 폴백
+        console.warn("Supabase JWT template not found, using default token:", error);
+        const authInstance = await auth();
+        return (await authInstance.getToken()) ?? null;
+      }
     },
   });
 }
