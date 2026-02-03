@@ -1,98 +1,127 @@
 # GripLab (그립랩) - 개발 TODO 리스트
 
-> **Version**: v1.6  
-> **Last Updated**: 2026-02-03  
-> **Status**: MVP Development  
+> **Version**: v1.6
+> **Last Updated**: 2026-02-03
+> **Status**: MVP Development
 > **참조 문서**: [PRD.md](./PRD.md) | [userflow.mermaid.md](./userflow.mermaid.md) | [setup_schema.sql](../supabase/migrations/setup_schema.sql)
 
 ---
 
 ## 진행 상태 범례
 
-| 상태 | 설명 |
-|------|------|
-| `[ ]` | TODO - 미착수 |
+| 상태  | 설명                  |
+| ----- | --------------------- |
+| `[ ]` | TODO - 미착수         |
 | `[~]` | IN PROGRESS - 진행 중 |
-| `[x]` | DONE - 완료 |
-| `[!]` | BLOCKED - 차단됨 |
-| `MVP` | MVP 필수 기능 |
+| `[x]` | DONE - 완료           |
+| `[!]` | BLOCKED - 차단됨      |
+| `MVP` | MVP 필수 기능         |
 
 ---
 
 ## 📊 진행 현황 요약
 
-| 카테고리 | 전체 | 완료 | 진행률 |
-|----------|------|------|--------|
-| 1. 기본 세팅 | 10 | 0 | 0% |
-| 2. 온보딩 플로우 | 25 | 0 | 0% |
-| 3. 메인 대시보드 | 15 | 0 | 0% |
-| 4. 루틴 빌더 | 20 | 0 | 0% |
-| 5. 워크아웃 플레이어 | 18 | 0 | 0% |
-| 6. 설정 | 10 | 0 | 0% |
-| 7. 게이미피케이션 | 8 | 0 | 0% |
-| **총계** | **106** | **0** | **0%** |
+| 카테고리             | 전체    | 완료  | 진행률 |
+| -------------------- | ------- | ----- | ------ |
+| 1. 기본 세팅         | 10      | 4     | 40%    |
+| 2. 온보딩 플로우     | 25      | 0     | 0%     |
+| 3. 메인 대시보드     | 15      | 0     | 0%     |
+| 4. 루틴 빌더         | 20      | 0     | 0%     |
+| 5. 워크아웃 플레이어 | 18      | 0     | 0%     |
+| 6. 설정              | 10      | 0     | 0%     |
+| 7. 게이미피케이션    | 8       | 0     | 0%     |
+| **총계**             | **106** | **0** | **0%** |
 
 ---
 
 ## 1. 기본 세팅 (Foundation)
 
-### 1.1 데이터베이스 설정 `MVP`
+### 1.1 데이터베이스 설정 `MVP` ✅
 
-> **관련 테이블**: profiles, gyms, gym_grade_scales, routines, training_logs  
-> **참조**: [setup_schema.sql](../supabase/migrations/setup_schema.sql)
+> **관련 테이블**: profiles, gyms, gym_grade_scales, routines, training_logs
+> **참조**: [setup_schema.sql](../supabase/migrations/setup_schema.sql) | [db-migration.md](./db-migration.md)
 
-- [ ] Supabase 마이그레이션 적용 확인
-  - [ ] `setup_schema.sql` Supabase Dashboard에서 실행
-  - [ ] 테이블 5개 생성 확인 (profiles, gyms, gym_grade_scales, routines, training_logs)
-  - [ ] RLS 정책 적용 확인
-  - [ ] `handle_new_user()` 트리거 동작 테스트
+- [x] Supabase 마이그레이션 적용 확인
+  - [x] `setup_schema.sql` Supabase Dashboard에서 실행
+  - [x] 테이블 5개 생성 확인 (profiles, gyms, gym_grade_scales, routines, training_logs)
+  - [x] RLS 정책 적용 확인
+  - [x] `handle_new_user()` 트리거 적용 확인 (Clerk 연동 시 동작 테스트는 별도)
+- [x] 검증용 RPC 적용: `20250203100000_add_griplab_schema_checks.sql` → `get_griplab_schema_checks()`
+- [x] check-db API 확장: 5개 테이블·users·Storage·schemaChecks(트리거·RLS)
+- [x] `pnpm run check-db` 스크립트: 트리거·RLS 상태 출력
 
 ### 1.2 TypeScript 타입 정의 `MVP`
 
-- [ ] `types/database.ts` 생성
-  ```typescript
-  // 정의할 타입들
-  - Profile (users 테이블 매핑)
-  - Gym
-  - GymGradeScale  
-  - Routine
-  - TrainingLog
-  - RoutineBlock (structure_json용)
-  - SetResult (set_results_json용)
-  ```
-- [ ] Supabase 타입 자동 생성 설정 (`supabase gen types typescript`)
+- [x] `database.types.ts` (프로젝트 루트): Supabase public 스키마 타입 수동 정의
+  - profiles, gyms, gym_grade_scales, routines, training_logs Row/Insert/Update
+  - `get_griplab_schema_checks` RPC 반환 타입, `training_status` enum
+- [x] `types/database.ts` 생성
+  - 테이블 Row 별칭: Profile, Gym, GymGradeScale, Routine, TrainingLog (+ Insert/Update)
+  - JSON 컬럼용: RoutineBlock (structure_json), SetResult (set_results_json)
+  - Database 재 export (Supabase 클라이언트 제네릭용)
+- [~] Supabase 타입 자동 생성: `pnpm run gen:types` 사용 가능 (Supabase 로그인 후 재생성 시 `database.types.ts` 덮어씀)
+
+<details>
+<summary><strong>1.2 TypeScript 타입 정의 MVP — 구현계획</strong></summary>
+
+| #   | 작업                          | 산출물/검증                                                                      |
+| --- | ----------------------------- | -------------------------------------------------------------------------------- |
+| 1   | DB 스키마 기준 타입 파일 유지 | `database.types.ts`: Tables Row/Insert/Update, Enums, Functions                  |
+| 2   | 앱에서 사용할 별칭·JSON 타입  | `types/database.ts`: Profile, Gym, Routine, TrainingLog, RoutineBlock, SetResult |
+| 3   | (선택) 타입 자동 생성         | `supabase login` 후 `pnpm run gen:types` → `database.types.ts` 갱신              |
+| 4   | 루틴 빌더 구현 시             | RoutineBlock 구조 확정 후 타입 보강 (children, type 디스크리미네이트 등)         |
+| 5   | 워크아웃 플레이어 구현 시     | SetResult 구조 확정 후 타입 보강 (세트별 필드)                                   |
+
+**참조**: [AGENTS.md](../AGENTS.md) gen:types 스크립트, [setup_schema.sql](../supabase/migrations/setup_schema.sql)
+
+</details>
 
 ### 1.3 환경 변수 설정
 
-- [ ] Google Gemini API 키 발급 및 설정
-  - [ ] `GEMINI_API_KEY` 환경 변수 추가
+- [x] Google Gemini API 키 발급 및 설정
+  - [x] `GEMINI_API_KEY` 환경 변수 추가
 - [x] Supabase 환경 변수 (이미 설정됨)
 - [x] Clerk 환경 변수 (이미 설정됨)
 
 ### 1.4 공통 유틸리티
 
-- [ ] `lib/utils/tier.ts` - 티어 관련 유틸리티
-  - [ ] 티어 번호 ↔ 이름 변환 (1=Silver, 2=Gold, ...)
-  - [ ] 티어별 색상 코드
-- [ ] `lib/utils/routine.ts` - 루틴 계산 유틸리티
-  - [ ] TUT (Time Under Tension) 계산
-  - [ ] 총 소요시간 계산
-  - [ ] 총 세트 수 계산
-- [ ] `lib/ai/gemini.ts` - Gemini API 클라이언트
-  - [ ] API 클라이언트 초기화
-  - [ ] 프롬프트 템플릿
-  - [ ] Strict JSON Schema 검증
+> **구현계획**: [docs/구현계획/1.4-공통-유틸리티.md](구현계획/1.4-공통-유틸리티.md)
+
+- [x] `lib/utils/tier.ts` - 티어 관련 유틸리티
+  - [x] 티어 번호 ↔ 이름 변환 (1=Silver, 2=Gold, ...)
+  - [x] 티어별 색상 코드
+- [x] `lib/utils/routine.ts` - 루틴 계산 유틸리티
+  - [x] TUT (Time Under Tension) 계산
+  - [x] 총 소요시간 계산
+  - [x] 총 세트 수 계산
+- [x] `lib/ai/gemini.ts` - Gemini API 클라이언트
+  - [x] API 클라이언트 초기화 (fetch + GEMINI_API_KEY)
+  - [x] 프롬프트 템플릿 (buildRoutinePrompt)
+  - [x] Strict JSON Schema 검증 (zod parseRoutineResponse)
+
+<details>
+<summary><strong>1.4 공통 유틸리티 — 구현 요약</strong></summary>
+
+| 모듈       | 역할                                                                                                   | 의존성                      |
+| ---------- | ------------------------------------------------------------------------------------------------------ | --------------------------- |
+| tier.ts    | 티어 이름·번호·기본 색상 (getTierName, getTierLevel, getTierColor)                                     | 없음                        |
+| routine.ts | TUT/총 소요시간/총 세트 수 (getRoutineTotalDurationSeconds, getRoutineTotalSets, getRoutineTUTSeconds) | types/database RoutineBlock |
+| gemini.ts  | 루틴 생성 API (buildRoutinePrompt, generateRoutineContent, parseRoutineResponse)                       | GEMINI_API_KEY, zod         |
+
+구현 순서: tier → routine → gemini. 상세: [구현계획/1.4-공통-유틸리티.md](구현계획/1.4-공통-유틸리티.md)
+
+</details>
 
 ---
 
 ## 2. 온보딩 플로우 (Onboarding) `MVP`
 
-> **유저플로우 참조**: [userflow.mermaid.md - Section 2](./userflow.mermaid.md#2-온보딩-상세-플로우-onboarding-flow)  
+> **유저플로우 참조**: [userflow.mermaid.md - Section 2](./userflow.mermaid.md#2-온보딩-상세-플로우-onboarding-flow)
 > **상태 전이**: Anonymous → SafetyAgreed → Guest/RegularUser
 
 ### 2.1 ON-00: 안전 동의 (Safety Consent) `MVP`
 
-> **PRD 참조**: 3.1 [Step 0] 안전 동의  
+> **PRD 참조**: 3.1 [Step 0] 안전 동의
 > **Skip 불가** - 필수 동의
 
 - [ ] `app/onboarding/safety/page.tsx` 생성
@@ -105,7 +134,7 @@
 
 ### 2.2 ON-01: 홈짐 선택 (Gym Selection) `MVP`
 
-> **PRD 참조**: 3.1 [Step 1] 홈짐 선택  
+> **PRD 참조**: 3.1 [Step 1] 홈짐 선택
 > **DB 테이블**: gyms, gym_grade_scales
 
 - [ ] `app/onboarding/gym-select/page.tsx` 생성
@@ -122,7 +151,7 @@
 
 ### 2.3 ON-02: 커스텀 암장 등록 (Create Gym)
 
-> **DB 테이블**: gyms, gym_grade_scales  
+> **DB 테이블**: gyms, gym_grade_scales
 > **라이브러리**: dnd-kit (드래그 앤 드롭)
 
 - [ ] `app/onboarding/gym-create/page.tsx` 생성
@@ -140,17 +169,17 @@
 
 ### 2.4 ON-03: 티어 배정 (Tier Assignment) `MVP`
 
-> **PRD 참조**: 3.1 [Step 2] 티어 배정  
+> **PRD 참조**: 3.1 [Step 2] 티어 배정
 > **DB 필드**: profiles.current_tier (1~6)
 
-| 티어 | 색상 범위 | 값 |
-|------|-----------|-----|
-| Silver | 흰~주 | 1 |
-| Gold | 초~파 | 2 |
-| Platinum | 빨~핑 | 3 |
-| Diamond | 보라~갈 | 4 |
-| Master | 회색 | 5 |
-| Grandmaster | 검정 | 6 |
+| 티어        | 색상 범위 | 값  |
+| ----------- | --------- | --- |
+| Silver      | 흰~주     | 1   |
+| Gold        | 초~파     | 2   |
+| Platinum    | 빨~핑     | 3   |
+| Diamond     | 보라~갈   | 4   |
+| Master      | 회색      | 5   |
+| Grandmaster | 검정      | 6   |
 
 - [ ] `app/onboarding/tier-assign/page.tsx` 생성
   - [ ] 색상 그리드 (sort_order 기준 정렬)
@@ -166,7 +195,7 @@
 
 ### 2.5 ON-04: 수행 능력 측정 (Assessment) `MVP`
 
-> **PRD 참조**: 3.1 [Step 3] 수행 능력 측정  
+> **PRD 참조**: 3.1 [Step 3] 수행 능력 측정
 > **DB 필드**: profiles.max_hang_1rm, profiles.no_hang_lift_1rm
 
 - [ ] `app/onboarding/assessment/page.tsx` 생성
@@ -190,7 +219,7 @@
 
 ## 3. 메인 대시보드 (Home Dashboard) `MVP`
 
-> **유저플로우 참조**: [userflow.mermaid.md - Section 3](./userflow.mermaid.md#3-메인-홈--대시보드-home-dashboard)  
+> **유저플로우 참조**: [userflow.mermaid.md - Section 3](./userflow.mermaid.md#3-메인-홈--대시보드-home-dashboard)
 > **Gate Logic**: Guest vs Regular 분기 처리
 
 ### 3.1 HM-01: Guest 홈 화면 `MVP`
@@ -211,7 +240,7 @@
 
 ### 3.2 HM-02: Regular User 홈 화면 `MVP`
 
-> **PRD 참조**: 3.4 [Regular User View]  
+> **PRD 참조**: 3.4 [Regular User View]
 > **DB 테이블**: profiles, training_logs
 
 - [ ] `app/(main)/page.tsx` Regular 분기
@@ -236,7 +265,7 @@
 
 ## 4. 루틴 빌더 (Routine Builder) `MVP`
 
-> **유저플로우 참조**: [userflow.mermaid.md - Section 4](./userflow.mermaid.md#4-루틴-빌더-플로우-routine-builder)  
+> **유저플로우 참조**: [userflow.mermaid.md - Section 4](./userflow.mermaid.md#4-루틴-빌더-플로우-routine-builder)
 > **Gate Logic**: Guest 유저 접근 시 설정 팝업 출력 후 차단
 
 ### 4.1 RB-01: 빌더 모드 선택 `MVP`
@@ -252,7 +281,7 @@
 
 ### 4.2 RB-02: AI 코치 (AI Coach) `MVP`
 
-> **PRD 참조**: 3.2 A. AI Coach  
+> **PRD 참조**: 3.2 A. AI Coach
 > **Context 주입**: 티어, 체중, 지난 훈련 로그
 
 - [ ] `app/routine-builder/ai-coach/page.tsx` 생성
@@ -273,7 +302,7 @@
 
 ### 4.3 RB-03: 루틴 에디터 (Block Editor) `MVP`
 
-> **PRD 참조**: 3.2 B. Custom Builder  
+> **PRD 참조**: 3.2 B. Custom Builder
 > **DB 필드**: routines.structure_json (중첩 블록 지원)
 
 - [ ] `app/routine-builder/editor/page.tsx` 생성
@@ -321,7 +350,7 @@
 
 ## 5. 워크아웃 플레이어 (Workout Player) `MVP`
 
-> **유저플로우 참조**: [userflow.mermaid.md - Section 5](./userflow.mermaid.md#5-훈련-플레이어-플로우-training-player)  
+> **유저플로우 참조**: [userflow.mermaid.md - Section 5](./userflow.mermaid.md#5-훈련-플레이어-플로우-training-player)
 > **DB 테이블**: training_logs
 
 ### 5.1 PL-01: 모드 선택 `MVP`
@@ -337,7 +366,7 @@
 
 ### 5.2 PL-02: 타이머 모드 (Auto) `MVP`
 
-> **PRD 참조**: 3.3 A. 타이머 모드  
+> **PRD 참조**: 3.3 A. 타이머 모드
 > **피드백 사운드**: Start("삐-"), End("삐-삐-"), Rest End("톡...톡...")
 
 - [ ] `app/workout/[routineId]/timer/page.tsx` 생성
@@ -370,7 +399,7 @@
 
 ### 5.4 PL-04: 세션 종료 `MVP`
 
-> **PRD 참조**: 3.3 C. 세션 관리  
+> **PRD 참조**: 3.3 C. 세션 관리
 > **DB 필드**: training_logs.status, rpe, abort_reason
 
 - [ ] `app/workout/[routineId]/end/page.tsx` 생성
@@ -472,41 +501,41 @@
 
 ### 9.1 프로필
 
-| 경로 | 메서드 | 설명 |
-|------|--------|------|
-| `actions/profiles.ts` | `getProfile()` | 현재 사용자 프로필 조회 |
-| | `updateProfile(data)` | 프로필 업데이트 |
+| 경로                  | 메서드                | 설명                    |
+| --------------------- | --------------------- | ----------------------- |
+| `actions/profiles.ts` | `getProfile()`        | 현재 사용자 프로필 조회 |
+|                       | `updateProfile(data)` | 프로필 업데이트         |
 
 ### 9.2 암장
 
-| 경로 | 메서드 | 설명 |
-|------|--------|------|
-| `actions/gyms.ts` | `getGyms(search?)` | 암장 목록 조회 |
-| | `getGym(gymId)` | 암장 상세 조회 |
-| | `createGymWithScales(data)` | 암장 + 색상 생성 |
+| 경로              | 메서드                      | 설명             |
+| ----------------- | --------------------------- | ---------------- |
+| `actions/gyms.ts` | `getGyms(search?)`          | 암장 목록 조회   |
+|                   | `getGym(gymId)`             | 암장 상세 조회   |
+|                   | `createGymWithScales(data)` | 암장 + 색상 생성 |
 
 ### 9.3 루틴
 
-| 경로 | 메서드 | 설명 |
-|------|--------|------|
-| `actions/routines.ts` | `getRoutines()` | 내 루틴 목록 |
-| | `getRoutine(id)` | 루틴 상세 |
-| | `createRoutine(data)` | 루틴 생성 |
-| | `updateRoutine(id, data)` | 루틴 수정 |
-| | `deleteRoutine(id)` | 루틴 삭제 |
+| 경로                  | 메서드                    | 설명         |
+| --------------------- | ------------------------- | ------------ |
+| `actions/routines.ts` | `getRoutines()`           | 내 루틴 목록 |
+|                       | `getRoutine(id)`          | 루틴 상세    |
+|                       | `createRoutine(data)`     | 루틴 생성    |
+|                       | `updateRoutine(id, data)` | 루틴 수정    |
+|                       | `deleteRoutine(id)`       | 루틴 삭제    |
 
 ### 9.4 훈련 기록
 
-| 경로 | 메서드 | 설명 |
-|------|--------|------|
-| `actions/training-logs.ts` | `getTrainingLogs()` | 훈련 기록 목록 |
-| | `getTrainingStats(period)` | 통계 조회 |
-| | `createTrainingLog(data)` | 훈련 기록 저장 |
+| 경로                       | 메서드                     | 설명           |
+| -------------------------- | -------------------------- | -------------- |
+| `actions/training-logs.ts` | `getTrainingLogs()`        | 훈련 기록 목록 |
+|                            | `getTrainingStats(period)` | 통계 조회      |
+|                            | `createTrainingLog(data)`  | 훈련 기록 저장 |
 
 ### 9.5 AI
 
-| 경로 | 메서드 | 설명 |
-|------|--------|------|
+| 경로            | 메서드                     | 설명         |
+| --------------- | -------------------------- | ------------ |
 | `actions/ai.ts` | `generateRoutine(context)` | AI 루틴 생성 |
 
 ---
@@ -573,9 +602,9 @@
 
 ## 변경 이력
 
-| 버전 | 날짜 | 변경 내용 |
-|------|------|-----------|
+| 버전 | 날짜       | 변경 내용                                   |
+| ---- | ---------- | ------------------------------------------- |
 | v1.0 | 2026-02-03 | PRD, DB 스키마, 유저플로우 기반 TODO 재구성 |
-| - | - | MVP 필수 항목 표시, 진행 상태 범례 추가 |
-| - | - | 유저플로우 섹션 참조 링크 추가 |
-| - | - | Definition of Done 섹션 통합 |
+| -    | -          | MVP 필수 항목 표시, 진행 상태 범례 추가     |
+| -    | -          | 유저플로우 섹션 참조 링크 추가              |
+| -    | -          | Definition of Done 섹션 통합                |
