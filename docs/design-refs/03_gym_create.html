@@ -1,0 +1,317 @@
+<!doctype html>
+
+<html class="dark" lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GripLab - 커스텀 암장 등록</title>
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#06f9f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2323",
+              "surface-dark": "#1b2727",
+              "surface-light": "#e0e7e7",
+              "tier-silver": "#C0C0C0",
+              "tier-gold": "#FFD700",
+              "tier-platinum": "#E5E4E2",
+              "tier-diamond": "#B9F2FF",
+              "tier-master": "#FF5F5F",
+              "tier-grandmaster": "#FF3333",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "Noto Sans KR", "sans-serif"],
+              body: ["Noto Sans KR", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              "2xl": "1rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Noto Sans KR", "Space Grotesk", sans-serif;
+      }
+      .font-display {
+        font-family: "Space Grotesk", "Noto Sans KR", sans-serif;
+      }
+      /* Custom scrollbar for horizontal scrolling */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased overflow-x-hidden"
+  >
+    <div
+      class="relative flex h-full min-h-screen w-full flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl"
+    >
+      <!-- Top App Bar -->
+      <header
+        class="flex items-center justify-between px-4 py-4 sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md"
+      >
+        <button
+          class="flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-900 dark:text-white"
+        >
+          <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+        </button>
+        <h1 class="text-lg font-bold font-display tracking-tight text-slate-900 dark:text-white">커스텀 암장 등록</h1>
+        <div class="w-10"></div>
+        <!-- Spacer for centering -->
+      </header>
+      <!-- Main Content -->
+      <main class="flex-1 flex flex-col px-4 pb-24 space-y-6">
+        <!-- Gym Name Input -->
+        <div class="mt-2 space-y-2">
+          <label class="text-sm font-medium text-slate-500 dark:text-[#9bbbbb] pl-1" for="gym-name">암장 이름</label>
+          <div class="relative">
+            <input
+              class="block w-full rounded-xl border-0 py-4 pl-4 pr-10 text-slate-900 dark:text-white bg-white dark:bg-surface-dark shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3a5555] placeholder:text-gray-400 dark:placeholder:text-[#5c7777] focus:ring-2 focus:ring-inset focus:ring-primary font-display sm:text-sm sm:leading-6 transition-all"
+              id="gym-name"
+              placeholder="암장 이름을 입력하세요"
+              type="text"
+            />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <span class="material-symbols-outlined text-gray-400 dark:text-[#5c7777]">edit</span>
+            </div>
+          </div>
+        </div>
+        <!-- Color Palette Generator -->
+        <div class="space-y-3">
+          <div class="flex justify-between items-center px-1">
+            <h3 class="text-sm font-medium text-slate-500 dark:text-[#9bbbbb]">색상 생성</h3>
+            <p class="text-xs text-slate-400 dark:text-[#5c7777]">드래그하여 티어에 매핑하세요</p>
+          </div>
+          <div class="flex items-center gap-3 overflow-x-auto scrollbar-hide py-2 px-1">
+            <!-- Add Button -->
+            <button
+              class="flex flex-col items-center justify-center gap-1 shrink-0 w-14 h-14 rounded-full border-2 border-dashed border-primary/50 text-primary hover:bg-primary/10 transition-colors"
+            >
+              <span class="material-symbols-outlined text-[24px]">add</span>
+            </button>
+            <!-- Color Circles (Draggable) -->
+            <div
+              class="shrink-0 w-14 h-14 rounded-full bg-[#FF4B4B] shadow-lg ring-2 ring-white/10 cursor-move relative group"
+            >
+              <div class="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/20 transition-colors"></div>
+            </div>
+            <div
+              class="shrink-0 w-14 h-14 rounded-full bg-[#FFD028] shadow-lg ring-2 ring-white/10 cursor-move relative group"
+            >
+              <div class="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/20 transition-colors"></div>
+            </div>
+            <div
+              class="shrink-0 w-14 h-14 rounded-full bg-[#3B82F6] shadow-lg ring-2 ring-white/10 cursor-move relative group"
+            >
+              <div class="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/20 transition-colors"></div>
+            </div>
+            <div
+              class="shrink-0 w-14 h-14 rounded-full bg-[#8B5CF6] shadow-lg ring-2 ring-white/10 cursor-move relative group"
+            >
+              <div class="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/20 transition-colors"></div>
+            </div>
+            <div
+              class="shrink-0 w-14 h-14 rounded-full bg-[#10B981] shadow-lg ring-2 ring-white/10 cursor-move relative group"
+            >
+              <div class="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/20 transition-colors"></div>
+            </div>
+          </div>
+        </div>
+        <div class="h-px bg-gray-200 dark:bg-[#2A3F3F]"></div>
+        <!-- Tier Mapping List -->
+        <div class="flex flex-col space-y-3">
+          <!-- Silver -->
+          <div
+            class="group flex items-center justify-between p-3 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-[#2A3F3F] shadow-sm hover:border-primary/50 transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#111818] shadow-inner"
+              >
+                <span class="material-symbols-outlined text-[28px] text-tier-silver fill-1">verified_user</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-bold text-slate-900 dark:text-white font-display">실버</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Silver</span>
+              </div>
+            </div>
+            <!-- Drop Zone: Empty -->
+            <div
+              class="w-12 h-12 rounded-full border-2 border-dashed border-gray-300 dark:border-[#3a5555] bg-gray-50 dark:bg-[#111818]/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/5 transition-all"
+            >
+              <span class="material-symbols-outlined text-gray-300 dark:text-[#3a5555] text-sm">drag_indicator</span>
+            </div>
+          </div>
+          <!-- Gold -->
+          <div
+            class="group flex items-center justify-between p-3 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-[#2A3F3F] shadow-sm hover:border-primary/50 transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#111818] shadow-inner"
+              >
+                <span class="material-symbols-outlined text-[28px] text-tier-gold fill-1">military_tech</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-bold text-slate-900 dark:text-white font-display">골드</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Gold</span>
+              </div>
+            </div>
+            <!-- Drop Zone: Filled Example -->
+            <div
+              class="w-12 h-12 rounded-full bg-[#FFD028] shadow-md ring-2 ring-white/10 flex items-center justify-center relative"
+            >
+              <button
+                class="absolute -top-1 -right-1 bg-black/50 hover:bg-black rounded-full p-0.5 text-white backdrop-blur-sm"
+              >
+                <span class="material-symbols-outlined text-[12px]">close</span>
+              </button>
+            </div>
+          </div>
+          <!-- Platinum -->
+          <div
+            class="group flex items-center justify-between p-3 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-[#2A3F3F] shadow-sm hover:border-primary/50 transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#111818] shadow-inner"
+              >
+                <span class="material-symbols-outlined text-[28px] text-tier-platinum fill-1">hotel_class</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-bold text-slate-900 dark:text-white font-display">플래티넘</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Platinum</span>
+              </div>
+            </div>
+            <div
+              class="w-12 h-12 rounded-full border-2 border-dashed border-gray-300 dark:border-[#3a5555] bg-gray-50 dark:bg-[#111818]/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/5 transition-all"
+            >
+              <span class="material-symbols-outlined text-gray-300 dark:text-[#3a5555] text-sm">drag_indicator</span>
+            </div>
+          </div>
+          <!-- Diamond -->
+          <div
+            class="group flex items-center justify-between p-3 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-[#2A3F3F] shadow-sm hover:border-primary/50 transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#111818] shadow-inner"
+              >
+                <span class="material-symbols-outlined text-[28px] text-tier-diamond fill-1">diamond</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-bold text-slate-900 dark:text-white font-display">다이아몬드</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Diamond</span>
+              </div>
+            </div>
+            <div
+              class="w-12 h-12 rounded-full border-2 border-dashed border-gray-300 dark:border-[#3a5555] bg-gray-50 dark:bg-[#111818]/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/5 transition-all"
+            >
+              <span class="material-symbols-outlined text-gray-300 dark:text-[#3a5555] text-sm">drag_indicator</span>
+            </div>
+          </div>
+          <!-- Master -->
+          <div
+            class="group flex items-center justify-between p-3 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-[#2A3F3F] shadow-sm hover:border-primary/50 transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#111818] shadow-inner"
+              >
+                <span class="material-symbols-outlined text-[28px] text-tier-master fill-1">trophy</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-bold text-slate-900 dark:text-white font-display">마스터</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Master</span>
+              </div>
+            </div>
+            <div
+              class="w-12 h-12 rounded-full border-2 border-dashed border-gray-300 dark:border-[#3a5555] bg-gray-50 dark:bg-[#111818]/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/5 transition-all"
+            >
+              <span class="material-symbols-outlined text-gray-300 dark:text-[#3a5555] text-sm">drag_indicator</span>
+            </div>
+          </div>
+          <!-- Grandmaster -->
+          <div
+            class="group flex items-center justify-between p-3 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-[#2A3F3F] shadow-sm hover:border-primary/50 transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#111818] shadow-inner relative overflow-hidden"
+              >
+                <!-- Glowing effect for GM -->
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20"></div>
+                <span
+                  class="material-symbols-outlined text-[28px] text-transparent bg-clip-text bg-gradient-to-tr from-purple-400 to-pink-500 fill-1 z-10"
+                  >workspace_premium</span
+                >
+              </div>
+              <div class="flex flex-col">
+                <span
+                  class="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 font-display"
+                  >그랜드마스터</span
+                >
+                <span class="text-xs text-slate-500 dark:text-slate-400">Grandmaster</span>
+              </div>
+            </div>
+            <div
+              class="w-12 h-12 rounded-full border-2 border-dashed border-gray-300 dark:border-[#3a5555] bg-gray-50 dark:bg-[#111818]/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/5 transition-all"
+            >
+              <span class="material-symbols-outlined text-gray-300 dark:text-[#3a5555] text-sm">drag_indicator</span>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- Fixed Bottom Action Bar -->
+      <div
+        class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent z-50 max-w-md mx-auto"
+      >
+        <button
+          class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-black font-bold py-4 px-6 rounded-xl shadow-[0_0_20px_-5px_#06f9f980] transition-all transform active:scale-[0.98]"
+        >
+          <span class="material-symbols-outlined">save</span>
+          <span class="font-display text-lg">저장하기</span>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

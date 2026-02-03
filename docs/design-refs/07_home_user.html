@@ -1,0 +1,308 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GripLab - User Home</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1fe7f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2123",
+              "surface-dark": "#162a2d",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "sans-serif"],
+              mono: ["Space Grotesk", "monospace"], // Using Space Grotesk for mono feel as well to keep consistency
+            },
+            boxShadow: {
+              neon: "0 0 10px rgba(31, 231, 249, 0.4), 0 0 20px rgba(31, 231, 249, 0.2)",
+              card: "0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .material-symbols-outlined.filled {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      /* Custom scrollbar hide for cleaner UI */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden antialiased selection:bg-primary selection:text-background-dark"
+  >
+    <div class="relative flex min-h-screen w-full flex-col pb-24">
+      <!-- Top App Bar: Compact & Technical -->
+      <header
+        class="sticky top-0 z-40 flex items-center justify-between px-5 py-4 bg-background-dark/90 backdrop-blur-lg border-b border-white/5"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="h-9 w-9 rounded-full bg-gradient-to-tr from-primary to-cyan-800 p-[1.5px] shadow-[0_0_12px_rgba(31,231,249,0.3)]"
+          >
+            <img
+              alt="User Profile Avatar"
+              class="h-full w-full rounded-full object-cover border-2 border-background-dark"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoTQfmMlWtv16JW1WdHEiS8wKsf8lFCM5bOLDfpC13qiEFrvSAt8wCaLxFqFvGNQ_F6Zo4vVDh4Gyd8EpBksGMIBpGXqKLIcco8IZ23feSD4CSdW76XOxGZ03n2P4qS_ootGJaFvdQAnO5vGGtc-b9c6339A-cspefzkWQi-K_JAbjxM5LUcHI-q8-QR3U1kbPCwrUWqEAu5TUO8rapH-6yS5pigH1-iRGeYBzEd12vLD_VB9ewiMYdR9bA18YQklmlQAHfsUPbp6w"
+            />
+          </div>
+          <h2 class="text-white text-lg font-bold tracking-tight">User_01</h2>
+        </div>
+        <div
+          class="flex items-center gap-2 px-3 py-1 rounded border border-primary/20 bg-primary/5 shadow-[0_0_8px_rgba(31,231,249,0.1)]"
+        >
+          <span class="material-symbols-outlined text-primary text-[16px] filled">military_tech</span>
+          <p class="text-primary text-xs font-bold tracking-[0.15em]">PLATINUM</p>
+        </div>
+      </header>
+      <!-- Main Content Scrollable Area -->
+      <main class="flex-1 flex flex-col gap-6 pt-2">
+        <!-- Streak Indicator: Text-centric & Minimal -->
+        <section class="px-5">
+          <div class="flex items-center justify-between py-2 border-b border-white/5">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center justify-center w-8 h-8 rounded text-orange-400 bg-orange-500/10">
+                <span class="material-symbols-outlined text-[20px] filled">local_fire_department</span>
+              </div>
+              <div class="flex flex-col justify-center h-full">
+                <p class="text-white text-sm font-bold tracking-wider leading-none mb-1">15 DAYS CONTINUOUS</p>
+                <p class="text-gray-500 text-[10px] uppercase tracking-widest leading-none">Personal Best: 22 Days</p>
+              </div>
+            </div>
+            <span class="material-symbols-outlined text-gray-600 text-[18px]">chevron_right</span>
+          </div>
+        </section>
+        <!-- Chart Section: Victory-Native Style -->
+        <section class="px-5">
+          <div class="w-full flex flex-col gap-4">
+            <div class="flex justify-between items-end px-1">
+              <div>
+                <p class="text-primary text-[10px] font-bold tracking-[0.2em] uppercase mb-1">Growth Trajectory</p>
+                <h3 class="text-white text-2xl font-bold tracking-tight">Steady Increase</h3>
+              </div>
+              <div class="flex flex-col items-end">
+                <div class="flex items-center gap-1 text-primary drop-shadow-[0_0_8px_rgba(31,231,249,0.5)]">
+                  <span class="material-symbols-outlined text-base">trending_up</span>
+                  <span class="text-lg font-bold">+12%</span>
+                </div>
+                <p class="text-gray-500 text-[10px] uppercase tracking-wide">Last 30 Days</p>
+              </div>
+            </div>
+            <!-- The Chart Container -->
+            <div class="relative w-full h-64 rounded-xl border border-white/5 bg-surface-dark/40 overflow-hidden">
+              <!-- Technical Grid Pattern Background -->
+              <div
+                class="absolute inset-0 opacity-[0.05]"
+                style="
+                  background-image:
+                    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+                  background-size: 40px 40px;
+                "
+              ></div>
+              <!-- SVG Chart -->
+              <svg class="w-full h-full p-4" preserveaspectratio="none" viewbox="0 0 350 180">
+                <defs>
+                  <lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#1fe7f9" stop-opacity="0.2"></stop>
+                    <stop offset="100%" stop-color="#1fe7f9" stop-opacity="0"></stop>
+                  </lineargradient>
+                  <filter height="140%" id="glow" width="140%" x="-20%" y="-20%">
+                    <fegaussianblur result="coloredBlur" stddeviation="2"></fegaussianblur>
+                    <femerge>
+                      <femergenode in="coloredBlur"></femergenode>
+                      <femergenode in="SourceGraphic"></femergenode>
+                    </femerge>
+                  </filter>
+                </defs>
+                <!-- Dashed Horizontal Grid Lines -->
+                <line stroke="#334155" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="350" y1="40" y2="40"></line>
+                <line stroke="#334155" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="350" y1="90" y2="90"></line>
+                <line stroke="#334155" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="350" y1="140" y2="140"></line>
+                <!-- The Area -->
+                <path
+                  d="M0,140 Q35,130 70,110 T140,90 T210,60 T280,40 T350,20 V180 H0 Z"
+                  fill="url(#chartGradient)"
+                ></path>
+                <!-- The Line -->
+                <path
+                  d="M0,140 Q35,130 70,110 T140,90 T210,60 T280,40 T350,20"
+                  fill="none"
+                  filter="url(#glow)"
+                  stroke="#1fe7f9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.5"
+                ></path>
+                <!-- Interactive Point (Mockup) -->
+                <circle cx="280" cy="40" fill="#0f2123" r="4" stroke="#1fe7f9" stroke-width="2"></circle>
+                <circle cx="280" cy="40" fill="#1fe7f9" opacity="0.1" r="12"></circle>
+              </svg>
+              <!-- X-Axis Labels positioned absolute for ease -->
+              <div
+                class="absolute bottom-2 left-4 right-4 flex justify-between text-[10px] text-gray-500 font-mono tracking-widest uppercase"
+              >
+                <span>Week 1</span>
+                <span>Week 2</span>
+                <span>Week 3</span>
+                <span>Current</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Metric Cards Grid -->
+        <section class="px-5">
+          <div class="grid grid-cols-2 gap-3">
+            <!-- Max Grip Card -->
+            <div
+              class="group relative p-4 rounded-lg border border-white/5 bg-surface-dark/30 hover:bg-surface-dark/50 transition-colors"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <p class="text-gray-400 text-[11px] font-bold uppercase tracking-widest">Max Grip</p>
+                <span
+                  class="material-symbols-outlined text-gray-600 text-[18px] group-hover:text-primary transition-colors"
+                  >fitness_center</span
+                >
+              </div>
+              <div class="flex items-baseline gap-1">
+                <p
+                  class="text-white text-3xl font-bold tracking-tight group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all"
+                >
+                  58.5
+                </p>
+                <span class="text-sm font-medium text-gray-500">kg</span>
+              </div>
+            </div>
+            <!-- Total Reps Card -->
+            <div
+              class="group relative p-4 rounded-lg border border-white/5 bg-surface-dark/30 hover:bg-surface-dark/50 transition-colors"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <p class="text-gray-400 text-[11px] font-bold uppercase tracking-widest">Total Reps</p>
+                <span
+                  class="material-symbols-outlined text-gray-600 text-[18px] group-hover:text-primary transition-colors"
+                  >restart_alt</span
+                >
+              </div>
+              <p
+                class="text-white text-3xl font-bold tracking-tight group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all"
+              >
+                1,240
+              </p>
+            </div>
+            <!-- Global Rank Card -->
+            <div
+              class="group relative p-4 rounded-lg border border-white/5 bg-surface-dark/30 hover:bg-surface-dark/50 transition-colors"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <p class="text-gray-400 text-[11px] font-bold uppercase tracking-widest">Global Rank</p>
+                <span
+                  class="material-symbols-outlined text-gray-600 text-[18px] group-hover:text-primary transition-colors"
+                  >public</span
+                >
+              </div>
+              <p class="text-primary text-3xl font-bold tracking-tight drop-shadow-[0_0_5px_rgba(31,231,249,0.3)]">
+                Top 5%
+              </p>
+            </div>
+            <!-- Consistency Card -->
+            <div
+              class="group relative p-4 rounded-lg border border-white/5 bg-surface-dark/30 hover:bg-surface-dark/50 transition-colors"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-gray-400 text-[11px] font-bold uppercase tracking-widest">Consistency</p>
+                <span
+                  class="material-symbols-outlined text-gray-600 text-[18px] group-hover:text-primary transition-colors"
+                  >verified_user</span
+                >
+              </div>
+              <div class="flex items-end justify-between">
+                <p class="text-white text-3xl font-bold tracking-tight">92%</p>
+                <!-- Mini Progress Circle or Bar -->
+                <div class="w-12 h-1 bg-white/10 rounded-full mb-2">
+                  <div
+                    class="h-full bg-primary rounded-full shadow-[0_0_8px_rgba(31,231,249,0.5)]"
+                    style="width: 92%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <!-- Floating Action Button (FAB) -->
+      <div class="fixed bottom-24 right-5 z-50">
+        <button
+          class="flex items-center justify-center w-14 h-14 rounded-full bg-primary text-background-dark shadow-[0_0_20px_rgba(31,231,249,0.4)] hover:shadow-[0_0_30px_rgba(31,231,249,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 group"
+        >
+          <span
+            class="material-symbols-outlined text-[28px] font-bold group-hover:rotate-90 transition-transform duration-300"
+            >add</span
+          >
+        </button>
+      </div>
+      <!-- Minimal Bottom Navigation -->
+      <nav
+        class="fixed bottom-0 left-0 w-full z-40 bg-background-dark/80 backdrop-blur-xl border-t border-white/5 pt-2 pb-6 px-6"
+      >
+        <div class="flex justify-between items-center max-w-sm mx-auto">
+          <button class="flex flex-col items-center gap-1 p-2 text-primary">
+            <span class="material-symbols-outlined filled text-[24px]">grid_view</span>
+          </button>
+          <button class="flex flex-col items-center gap-1 p-2 text-gray-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[24px]">monitoring</span>
+          </button>
+          <button class="flex flex-col items-center gap-1 p-2 text-gray-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[24px]">groups</span>
+          </button>
+          <button class="flex flex-col items-center gap-1 p-2 text-gray-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[24px]">person</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </body>
+</html>

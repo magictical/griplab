@@ -35,7 +35,10 @@ export function createClerkSupabaseClient() {
         return token ?? (await authInstance.getToken()) ?? null;
       } catch (error) {
         // 템플릿이 없는 경우 기본 토큰으로 폴백
-        console.warn("Supabase JWT template not found, using default token:", error);
+        console.warn(
+          "Supabase JWT template not found, using default token:",
+          error,
+        );
         const authInstance = await auth();
         return (await authInstance.getToken()) ?? null;
       }

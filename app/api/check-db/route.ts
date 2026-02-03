@@ -1,8 +1,8 @@
 /**
  * Supabase 데이터베이스 상태 확인 API
- * 
+ *
  * GET /api/check-db
- * 
+ *
  * 데이터베이스의 테이블, 데이터, Storage 버킷 정보를 반환합니다.
  */
 
@@ -49,7 +49,11 @@ export async function GET() {
     };
 
     // 1. users 테이블 확인
-    const { data: users, error: usersError, count } = await supabase
+    const {
+      data: users,
+      error: usersError,
+      count,
+    } = await supabase
       .from("users")
       .select("*", { count: "exact" })
       .order("created_at", { ascending: false })
@@ -65,7 +69,8 @@ export async function GET() {
     }
 
     // 2. Storage 버킷 확인
-    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+    const { data: buckets, error: bucketsError } =
+      await supabase.storage.listBuckets();
 
     if (bucketsError) {
       result.storage.error = bucketsError.message;
@@ -95,9 +100,12 @@ export async function GET() {
     console.error("Database check error:", error);
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "데이터베이스 확인 중 오류 발생",
+        error:
+          error instanceof Error
+            ? error.message
+            : "데이터베이스 확인 중 오류 발생",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

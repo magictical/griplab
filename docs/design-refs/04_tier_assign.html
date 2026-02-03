@@ -1,0 +1,252 @@
+<!doctype html>
+
+<html class="dark" lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GripLab - 수행 능력 측정</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1fe7f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2123",
+              "surface-dark": "#172a2d",
+              "surface-light": "#ffffff",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "Noto Sans KR", "sans-serif"],
+              body: ["Noto Sans KR", "sans-serif"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", "2xl": "1rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      /* Custom scrollbar for clean look */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f2123;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #172a2d;
+        border-radius: 3px;
+      }
+      .neon-glow {
+        box-shadow: 0 0 10px rgba(31, 231, 249, 0.3);
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-white font-display antialiased pb-24"
+  >
+    <!-- Screen Wrapper -->
+    <div
+      class="max-w-md mx-auto relative bg-background-light dark:bg-background-dark min-h-screen shadow-2xl overflow-hidden"
+    >
+      <!-- Top App Bar -->
+      <header
+        class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-gray-200 dark:border-white/10 px-4 py-3 flex items-center justify-between"
+      >
+        <button class="p-2 -ml-2 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">
+          <span class="material-symbols-outlined text-2xl">arrow_back</span>
+        </button>
+        <h1 class="text-lg font-bold tracking-tight">수행 능력 측정</h1>
+        <div class="w-10"></div>
+        <!-- Spacer for centering -->
+      </header>
+      <!-- Tabs -->
+      <div class="sticky top-[60px] z-40 bg-background-light dark:bg-background-dark pt-2 px-4">
+        <div class="flex border-b border-gray-200 dark:border-white/10">
+          <!-- Tab 1: Active -->
+          <button class="flex-1 pb-3 pt-2 relative group outline-none">
+            <span class="text-sm font-bold tracking-wide text-primary">데이터 입력</span>
+            <div class="absolute bottom-0 left-0 w-full h-[2px] bg-primary neon-glow rounded-t-full"></div>
+          </button>
+          <!-- Tab 2: Inactive -->
+          <button class="flex-1 pb-3 pt-2 relative group outline-none">
+            <span class="text-sm font-bold tracking-wide text-gray-400 group-hover:text-gray-200 transition-colors"
+              >장비 확인</span
+            >
+            <div
+              class="absolute bottom-0 left-0 w-full h-[2px] bg-transparent group-hover:bg-white/20 transition-colors rounded-t-full"
+            ></div>
+          </button>
+        </div>
+      </div>
+      <!-- Tab Content: Data Input -->
+      <main class="p-5 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <!-- Input Group 1 -->
+        <div class="space-y-3">
+          <div class="flex justify-between items-end">
+            <h2 class="text-2xl font-bold tracking-tight text-white">Max Hang</h2>
+            <span class="text-sm text-primary font-mono mb-1">KG</span>
+          </div>
+          <div class="relative group">
+            <input
+              class="w-full bg-surface-dark border-2 border-white/10 rounded-2xl px-5 py-4 text-3xl font-bold text-white placeholder-gray-600 focus:border-primary focus:ring-0 focus:outline-none transition-all duration-300 text-right font-mono"
+              inputmode="decimal"
+              placeholder="0.0"
+              type="number"
+            />
+            <div class="absolute inset-0 rounded-2xl pointer-events-none ring-1 ring-white/5"></div>
+          </div>
+          <p class="text-xs text-gray-400 pl-1">* 본인의 체중을 포함하지 않은 추가 무게를 입력하세요.</p>
+        </div>
+        <!-- Input Group 2 -->
+        <div class="space-y-3">
+          <div class="flex justify-between items-end">
+            <h2 class="text-2xl font-bold tracking-tight text-white">No Hang Lift</h2>
+            <span class="text-sm text-primary font-mono mb-1">KG</span>
+          </div>
+          <div class="relative group">
+            <input
+              class="w-full bg-surface-dark border-2 border-white/10 rounded-2xl px-5 py-4 text-3xl font-bold text-white placeholder-gray-600 focus:border-primary focus:ring-0 focus:outline-none transition-all duration-300 text-right font-mono"
+              inputmode="decimal"
+              placeholder="0.0"
+              type="number"
+            />
+            <div class="absolute inset-0 rounded-2xl pointer-events-none ring-1 ring-white/5"></div>
+          </div>
+          <p class="text-xs text-gray-400 pl-1">* 리프팅 핀이나 블럭을 사용한 최대 들어올리기 무게.</p>
+        </div>
+      </main>
+      <!-- Divider for Demo Purposes (simulating tab switch) -->
+      <div class="py-8 flex items-center gap-4 px-5 opacity-50">
+        <div class="h-px bg-white/20 flex-1"></div>
+        <span class="text-xs uppercase tracking-widest text-white/50">Tab 2 Preview: Equipment</span>
+        <div class="h-px bg-white/20 flex-1"></div>
+      </div>
+      <!-- Simulated Tab 2 Content: Equipment Check -->
+      <div class="px-5 pb-24 space-y-6">
+        <div class="space-y-4">
+          <h3 class="text-sm uppercase tracking-wider text-gray-500 font-bold mb-2">사용 장비 선택</h3>
+          <!-- Card 1: Hangboard -->
+          <label
+            class="relative flex items-center gap-4 p-4 rounded-xl border-2 border-surface-dark bg-surface-dark/50 cursor-pointer hover:bg-surface-dark transition-all group has-[:checked]:border-primary has-[:checked]:bg-primary/5 has-[:checked]:shadow-[0_0_15px_rgba(31,231,249,0.1)]"
+          >
+            <input class="peer sr-only" name="equipment" type="radio" />
+            <div
+              class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-background-dark border border-white/10 text-white peer-checked:text-primary peer-checked:border-primary/50 transition-colors"
+            >
+              <span class="material-symbols-outlined text-3xl">calendar_view_week</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-base font-bold text-white group-hover:text-primary transition-colors">행보드</h4>
+              <p class="text-xs text-gray-400 mt-0.5">표준 20mm 엣지 사용</p>
+            </div>
+            <div
+              class="w-6 h-6 rounded-full border-2 border-gray-600 peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-black text-sm opacity-0 peer-checked:opacity-100 font-bold"
+                >check</span
+              >
+            </div>
+          </label>
+          <!-- Card 2: Loading Pin (Selected State Demo) -->
+          <label
+            class="relative flex items-center gap-4 p-4 rounded-xl border-2 border-primary bg-primary/5 shadow-[0_0_15px_rgba(31,231,249,0.1)] cursor-pointer transition-all"
+          >
+            <input checked="" class="peer sr-only" name="equipment" type="radio" />
+            <div
+              class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-background-dark border border-primary/50 text-primary"
+            >
+              <span class="material-symbols-outlined text-3xl">fitness_center</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-base font-bold text-primary">로딩핀 / 블럭</h4>
+              <p class="text-xs text-gray-400 mt-0.5">지면에서 들어올리기 측정</p>
+            </div>
+            <div class="w-6 h-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-black text-sm font-bold">check</span>
+            </div>
+          </label>
+          <!-- Card 3: No Equipment -->
+          <label
+            class="relative flex items-center gap-4 p-4 rounded-xl border-2 border-surface-dark bg-surface-dark/50 cursor-pointer hover:bg-surface-dark transition-all group has-[:checked]:border-primary has-[:checked]:bg-primary/5"
+          >
+            <input class="peer sr-only" name="equipment" type="radio" />
+            <div
+              class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-background-dark border border-white/10 text-white peer-checked:text-primary peer-checked:border-primary/50 transition-colors"
+            >
+              <span class="material-symbols-outlined text-3xl">accessibility_new</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-base font-bold text-white group-hover:text-primary transition-colors">장비 없음</h4>
+              <p class="text-xs text-gray-400 mt-0.5">맨몸 측정 모드</p>
+            </div>
+
+            <div
+              class="w-6 h-6 rounded-full border-2 border-gray-600 peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-black text-sm opacity-0 peer-checked:opacity-100 font-bold"
+                >check</span
+              >
+            </div>
+          </label>
+        </div>
+
+        <!-- Contextual Notice Box -->
+        <div class="rounded-lg bg-primary/10 border border-primary/20 p-4 flex gap-3 items-start">
+          <span class="material-symbols-outlined text-primary shrink-0 text-xl mt-0.5">timer</span>
+          <p class="text-sm text-primary/90 leading-relaxed font-medium">
+            종목 간 5분 강제 휴식 타이머가 적용됩니다. 정확한 측정을 위해 충분한 휴식을 취해주세요.
+          </p>
+        </div>
+        <!-- Alternative Notice (Hidden by default logic, shown for demo structure) -->
+        <!--
+            <div class="rounded-lg bg-gray-800 border border-gray-700 p-4 flex gap-3 items-start">
+                <span class="material-symbols-outlined text-gray-400 shrink-0 text-xl mt-0.5">info</span>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                    체중 기반 추정치로 계산됩니다. 정확도가 낮을 수 있습니다.
+                </p>
+            </div>
+            -->
+      </div>
+      <!-- Sticky Footer CTA -->
+      <div
+        class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-dark via-background-dark to-transparent z-50 flex justify-center max-w-md mx-auto"
+      >
+        <button
+          class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold text-lg py-4 rounded-xl shadow-[0_0_20px_rgba(31,231,249,0.4)] transition-all transform active:scale-[0.98] flex items-center justify-center gap-2"
+        >
+          <span>측정 저장</span>
+          <span class="material-symbols-outlined text-xl font-bold">check</span>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -87,14 +87,12 @@
 3. 페이지 하단으로 스크롤하여 **"Third-Party Auth"** 섹션 찾기
 4. **"Enable Custom Access Token"** 또는 **"Add Provider"** 클릭
 5. 다음 정보 입력:
-
    - **Provider Name**: `Clerk`
    - **JWT Issuer (Issuer URL)**:
      ```
      https://your-app-12.clerk.accounts.dev
      ```
      (`your-app-12` 부분을 실제 Clerk Frontend API URL로 교체)
-   
    - **JWKS Endpoint (JWKS URI)**:
      ```
      https://your-app-12.clerk.accounts.dev/.well-known/jwks.json
@@ -107,7 +105,8 @@
 
 설정이 완료되면 Supabase가 Clerk의 JWT 토큰을 검증할 수 있게 됩니다.
 
-**참고**: 
+**참고**:
+
 - [Clerk 공식 통합 가이드](https://clerk.com/docs/guides/development/integrations/databases/supabase)
 - [Storage API 에러 해결 가이드](../troubleshooting/storage-alg-error.md)
 
@@ -136,14 +135,14 @@ NEXT_PUBLIC_STORAGE_BUCKET=data-griplab
 
 ### 2. 환경 변수 설명
 
-| 변수명 | 설명 | 사용 위치 |
-|--------|------|-----------|
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk 공개 키 (클라이언트에서 사용) | 클라이언트 컴포넌트 |
-| `CLERK_SECRET_KEY` | Clerk 비밀 키 (서버에서만 사용) | 서버 컴포넌트, API 라우트 |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL | 모든 Supabase 클라이언트 |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase 공개 키 (클라이언트에서 사용) | 클라이언트 컴포넌트, 서버 컴포넌트 |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase 관리자 키 (⚠️ 절대 공개 금지) | 서버 사이드 관리 작업만 |
-| `NEXT_PUBLIC_STORAGE_BUCKET` | Storage 버킷 이름 | Storage 작업 |
+| 변수명                              | 설명                                   | 사용 위치                          |
+| ----------------------------------- | -------------------------------------- | ---------------------------------- |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk 공개 키 (클라이언트에서 사용)    | 클라이언트 컴포넌트                |
+| `CLERK_SECRET_KEY`                  | Clerk 비밀 키 (서버에서만 사용)        | 서버 컴포넌트, API 라우트          |
+| `NEXT_PUBLIC_SUPABASE_URL`          | Supabase 프로젝트 URL                  | 모든 Supabase 클라이언트           |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`     | Supabase 공개 키 (클라이언트에서 사용) | 클라이언트 컴포넌트, 서버 컴포넌트 |
+| `SUPABASE_SERVICE_ROLE_KEY`         | Supabase 관리자 키 (⚠️ 절대 공개 금지) | 서버 사이드 관리 작업만            |
+| `NEXT_PUBLIC_STORAGE_BUCKET`        | Storage 버킷 이름                      | Storage 작업                       |
 
 ### 3. 보안 주의사항
 
@@ -166,6 +165,7 @@ NEXT_PUBLIC_STORAGE_BUCKET=data-griplab
 **용도**: React Client Component에서 사용
 
 **특징**:
+
 - Clerk 세션 토큰을 자동으로 Supabase에 전달
 - `useAuth().getToken()`으로 현재 사용자의 토큰 사용
 - Supabase JWT 템플릿 사용 시도 (Storage API 호환성)
@@ -173,23 +173,21 @@ NEXT_PUBLIC_STORAGE_BUCKET=data-griplab
 **사용 예제**:
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
 
 export default function MyComponent() {
   const supabase = useClerkSupabaseClient();
 
   async function fetchData() {
-    const { data, error } = await supabase
-      .from('users')
-      .select('*');
-    
+    const { data, error } = await supabase.from("users").select("*");
+
     if (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       return;
     }
-    
+
     return data;
   }
 
@@ -204,6 +202,7 @@ export default function MyComponent() {
 **용도**: Server Component, Server Actions에서 사용
 
 **특징**:
+
 - `auth().getToken()`으로 서버 사이드에서 Clerk 토큰 가져오기
 - Supabase JWT 템플릿 사용 시도
 
@@ -211,19 +210,17 @@ export default function MyComponent() {
 
 ```tsx
 // Server Component
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export default async function MyPage() {
   const supabase = createClerkSupabaseClient();
-  
-  const { data, error } = await supabase
-    .from('users')
-    .select('*');
-  
+
+  const { data, error } = await supabase.from("users").select("*");
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  
+
   return (
     <div>
       {data?.map((user) => (
@@ -241,18 +238,17 @@ export default async function MyPage() {
 **용도**: 인증이 필요 없는 공개 데이터 조회
 
 **특징**:
+
 - Clerk 토큰 없이 anon key만 사용
 - RLS 정책이 `to anon`인 데이터만 접근 가능
 
 **사용 예제**:
 
 ```tsx
-import { supabase } from '@/lib/supabase/client';
+import { supabase } from "@/lib/supabase/client";
 
 // 공개 데이터 조회 (인증 불필요)
-const { data } = await supabase
-  .from('public_posts')
-  .select('*');
+const { data } = await supabase.from("public_posts").select("*");
 ```
 
 ### 4. Service Role 클라이언트 (관리자용)
@@ -262,6 +258,7 @@ const { data } = await supabase
 **용도**: RLS를 우회해야 하는 관리 작업
 
 **특징**:
+
 - 모든 RLS 정책을 우회
 - 서버 사이드에서만 사용
 - ⚠️ 클라이언트에 노출하면 안 됨
@@ -270,29 +267,27 @@ const { data } = await supabase
 
 ```tsx
 // API Route 또는 Server Action
-import { getServiceRoleClient } from '@/lib/supabase/service-role';
+import { getServiceRoleClient } from "@/lib/supabase/service-role";
 
 export async function POST(req: Request) {
   const supabase = getServiceRoleClient();
-  
+
   // RLS를 우회하여 모든 데이터 접근 가능
-  const { data, error } = await supabase
-    .from('users')
-    .select('*');
-  
+  const { data, error } = await supabase.from("users").select("*");
+
   return Response.json({ data });
 }
 ```
 
 ### 클라이언트 선택 가이드
 
-| 상황 | 사용할 클라이언트 |
-|------|------------------|
-| Client Component에서 인증된 사용자 데이터 조회 | `useClerkSupabaseClient()` |
-| Server Component에서 인증된 사용자 데이터 조회 | `createClerkSupabaseClient()` |
-| 공개 데이터 조회 (인증 불필요) | `supabase` (client.ts) |
-| 관리자 작업 (RLS 우회 필요) | `getServiceRoleClient()` |
-| Storage 작업 (인증 필요) | `useClerkSupabaseClient()` 또는 `createClerkSupabaseClient()` |
+| 상황                                           | 사용할 클라이언트                                             |
+| ---------------------------------------------- | ------------------------------------------------------------- |
+| Client Component에서 인증된 사용자 데이터 조회 | `useClerkSupabaseClient()`                                    |
+| Server Component에서 인증된 사용자 데이터 조회 | `createClerkSupabaseClient()`                                 |
+| 공개 데이터 조회 (인증 불필요)                 | `supabase` (client.ts)                                        |
+| 관리자 작업 (RLS 우회 필요)                    | `getServiceRoleClient()`                                      |
+| Storage 작업 (인증 필요)                       | `useClerkSupabaseClient()` 또는 `createClerkSupabaseClient()` |
 
 ---
 
@@ -311,12 +306,14 @@ export async function POST(req: Request) {
 ### 2. 생성되는 테이블
 
 **`users` 테이블**:
+
 - `id` (UUID, Primary Key) - 자동 생성
 - `clerk_id` (TEXT, Unique) - Clerk 사용자 ID
 - `name` (TEXT) - 사용자 이름
 - `created_at` (TIMESTAMP) - 생성 시간
 
 **RLS 설정**:
+
 - 개발 중: RLS 비활성화
 - 프로덕션: RLS 활성화 필요
 
@@ -355,6 +352,7 @@ Clerk 사용자가 로그인하면 자동으로 Supabase `users` 테이블에 �
 **버킷**: `data-griplab` (Private)
 
 **RLS 정책**:
+
 - **INSERT**: 인증된 사용자만 자신의 폴더(`{clerk_user_id}/`)에 업로드 가능
 - **SELECT**: 인증된 사용자만 자신의 파일 조회 가능
 - **DELETE**: 인증된 사용자만 자신의 파일 삭제 가능
@@ -365,10 +363,10 @@ Clerk 사용자가 로그인하면 자동으로 Supabase `users` 테이블에 �
 ### 4. Storage 사용 예제
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
-import { useUser } from '@clerk/nextjs';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useUser } from "@clerk/nextjs";
 
 export default function FileUpload() {
   const supabase = useClerkSupabaseClient();
@@ -378,20 +376,25 @@ export default function FileUpload() {
     if (!user) return;
 
     const filePath = `${user.id}/${file.name}`;
-    
+
     const { error } = await supabase.storage
-      .from('data-griplab')
+      .from("data-griplab")
       .upload(filePath, file);
 
     if (error) {
-      console.error('Upload error:', error);
+      console.error("Upload error:", error);
       return;
     }
 
-    console.log('File uploaded successfully!');
+    console.log("File uploaded successfully!");
   }
 
-  return <input type="file" onChange={(e) => e.target.files?.[0] && uploadFile(e.target.files[0])} />;
+  return (
+    <input
+      type="file"
+      onChange={(e) => e.target.files?.[0] && uploadFile(e.target.files[0])}
+    />
+  );
 }
 ```
 
@@ -402,10 +405,10 @@ export default function FileUpload() {
 ### 1. 데이터 조회 (Client Component)
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
-import { useEffect, useState } from 'react';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useEffect, useState } from "react";
 
 export default function UsersList() {
   const supabase = useClerkSupabaseClient();
@@ -414,12 +417,12 @@ export default function UsersList() {
   useEffect(() => {
     async function fetchUsers() {
       const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("users")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
         return;
       }
 
@@ -442,15 +445,15 @@ export default function UsersList() {
 ### 2. 데이터 조회 (Server Component)
 
 ```tsx
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export default async function UsersPage() {
   const supabase = createClerkSupabaseClient();
-  
+
   const { data: users, error } = await supabase
-    .from('users')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .from("users")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -469,10 +472,10 @@ export default async function UsersPage() {
 ### 3. 데이터 삽입
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
-import { useUser } from '@clerk/nextjs';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useUser } from "@clerk/nextjs";
 
 export default function CreateUser() {
   const supabase = useClerkSupabaseClient();
@@ -481,19 +484,17 @@ export default function CreateUser() {
   async function createUser() {
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from('users')
-      .insert({
-        clerk_id: user.id,
-        name: user.fullName || user.emailAddresses[0]?.emailAddress || 'Unknown',
-      });
+    const { data, error } = await supabase.from("users").insert({
+      clerk_id: user.id,
+      name: user.fullName || user.emailAddresses[0]?.emailAddress || "Unknown",
+    });
 
     if (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       return;
     }
 
-    console.log('User created:', data);
+    console.log("User created:", data);
   }
 
   return <button onClick={createUser}>Create User</button>;
@@ -503,10 +504,10 @@ export default function CreateUser() {
 ### 4. Storage 파일 업로드
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
-import { useUser } from '@clerk/nextjs';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useUser } from "@clerk/nextjs";
 
 export default function FileUpload() {
   const supabase = useClerkSupabaseClient();
@@ -519,18 +520,18 @@ export default function FileUpload() {
     const filePath = `${user.id}/${file.name}`;
 
     const { error } = await supabase.storage
-      .from('data-griplab')
+      .from("data-griplab")
       .upload(filePath, file, {
-        cacheControl: '3600',
+        cacheControl: "3600",
         upsert: false,
       });
 
     if (error) {
-      console.error('Upload error:', error);
+      console.error("Upload error:", error);
       return;
     }
 
-    console.log('File uploaded successfully!');
+    console.log("File uploaded successfully!");
   }
 
   return <input type="file" onChange={handleUpload} />;
@@ -540,11 +541,11 @@ export default function FileUpload() {
 ### 5. Storage 파일 목록 조회
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
-import { useUser } from '@clerk/nextjs';
-import { useEffect, useState } from 'react';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 
 export default function FileList() {
   const supabase = useClerkSupabaseClient();
@@ -556,14 +557,14 @@ export default function FileList() {
 
     async function fetchFiles() {
       const { data, error } = await supabase.storage
-        .from('data-griplab')
+        .from("data-griplab")
         .list(user.id, {
           limit: 100,
-          sortBy: { column: 'created_at', order: 'desc' },
+          sortBy: { column: "created_at", order: "desc" },
         });
 
       if (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
         return;
       }
 
@@ -594,6 +595,7 @@ export default function FileList() {
 **원인**: Supabase에서 Clerk를 Third-Party Auth로 설정하지 않았거나, JWT 알고리즘이 호환되지 않음
 
 **해결 방법**:
+
 1. Supabase Dashboard → **Settings** → **Authentication** → **Providers**
 2. **"Third-Party Auth"** 섹션에서 Clerk가 등록되어 있는지 확인
 3. 등록되지 않았다면 [Clerk + Supabase 통합 설정](#clerk--supabase-통합-설정) 섹션을 따라 설정
@@ -607,6 +609,7 @@ export default function FileList() {
 **원인**: `.env` 파일에 필요한 환경 변수가 설정되지 않음
 
 **해결 방법**:
+
 1. 프로젝트 루트에 `.env` 파일이 있는지 확인
 2. 모든 필수 환경 변수가 설정되어 있는지 확인
 3. 환경 변수 이름에 오타가 없는지 확인
@@ -615,11 +618,13 @@ export default function FileList() {
 
 **에러 메시지**: `Invalid API key` 또는 `JWT expired`
 
-**원인**: 
+**원인**:
+
 - 잘못된 API 키 사용
 - 만료된 JWT 토큰
 
 **해결 방법**:
+
 1. Supabase Dashboard에서 API 키가 올바른지 확인
 2. Clerk Dashboard에서 JWT 설정 확인
 3. 브라우저를 새로고침하여 새로운 토큰 받기
@@ -631,6 +636,7 @@ export default function FileList() {
 **원인**: RLS 정책이 데이터 접근을 차단함
 
 **해결 방법**:
+
 1. 개발 중: RLS를 비활성화 (프로덕션에서는 권장하지 않음)
 2. 프로덕션: 적절한 RLS 정책 작성
 3. Service Role 클라이언트 사용 (관리 작업만)
@@ -688,32 +694,38 @@ export default function FileList() {
 이 프로젝트에 Supabase를 통합하는 전체 과정은 다음과 같습니다:
 
 #### 1단계: 프로젝트 생성 및 설정
+
 - ✅ Supabase 프로젝트 생성
 - ✅ Clerk 프로젝트 생성
 - ✅ 환경 변수 설정 (`.env` 파일)
 
 #### 2단계: Clerk + Supabase 통합
+
 - ✅ Clerk Frontend API URL 확인
 - ✅ Supabase에서 Clerk를 Third-Party Auth로 설정
 - ✅ JWT Issuer 및 JWKS Endpoint 등록
 
 #### 3단계: 데이터베이스 설정
+
 - ✅ `users` 테이블 생성 (`setup_schema.sql`)
 - ✅ RLS 정책 설정 (개발 중 비활성화)
 - ✅ 사용자 동기화 로직 구현
 
 #### 4단계: Storage 설정
+
 - ✅ `data-griplab` 버킷 생성 (`setup_storage.sql`)
 - ✅ Storage RLS 정책 설정
 - ✅ 파일 경로 구조 정의 (`{clerk_user_id}/{filename}`)
 
 #### 5단계: 클라이언트 구현
+
 - ✅ Client Component용 클라이언트 (`clerk-client.ts`)
 - ✅ Server Component용 클라이언트 (`server.ts`)
 - ✅ 공개 데이터용 클라이언트 (`client.ts`)
 - ✅ 관리자용 클라이언트 (`service-role.ts`)
 
 #### 6단계: 테스트 및 검증
+
 - ✅ 인증 통합 테스트 (`/auth-test`)
 - ✅ Storage 기능 테스트 (`/storage-test`)
 - ✅ 데이터베이스 쿼리 테스트
@@ -721,6 +733,7 @@ export default function FileList() {
 ### 현재 프로젝트 상태
 
 **✅ 완료된 작업**:
+
 - Supabase 클라이언트 구현 (4가지 타입)
 - Clerk + Supabase 네이티브 통합
 - 사용자 동기화 시스템
@@ -728,6 +741,7 @@ export default function FileList() {
 - 한국어 로컬라이제이션 (Clerk)
 
 **📋 설정 필요**:
+
 - Supabase Dashboard에서 Clerk를 Third-Party Auth로 설정
 - `.env` 파일에 실제 API 키 입력
 - 데이터베이스 마이그레이션 실행
@@ -765,5 +779,6 @@ export default function FileList() {
 **프로젝트 버전**: Next.js 15.5.9, Supabase JS 2.49.8, Clerk Next.js 6.36.9
 
 **참고 문서**:
+
 - [Supabase 공식 Next.js 가이드](https://supabase.com/docs/guides/getting-started/quickstarts/nextjs)
 - [Clerk + Supabase 통합 가이드](https://clerk.com/docs/guides/development/integrations/databases/supabase)

@@ -15,7 +15,7 @@ async function checkUsersTable() {
     // 1. 테이블 구조 확인 (메타데이터)
     console.log("\n📊 테이블 구조:");
     console.log("-".repeat(60));
-    
+
     // 컬럼 정보를 얻기 위해 빈 쿼리 실행
     const { data: sampleData, error: sampleError } = await supabase
       .from("users")
@@ -30,7 +30,7 @@ async function checkUsersTable() {
     }
 
     console.log("✅ users 테이블 접근 가능");
-    
+
     if (sampleData && sampleData.length > 0) {
       console.log("\n컬럼 구조:");
       const columns = Object.keys(sampleData[0]);
@@ -42,7 +42,7 @@ async function checkUsersTable() {
     // 2. 전체 데이터 개수 확인
     console.log("\n📈 데이터 통계:");
     console.log("-".repeat(60));
-    
+
     const { count, error: countError } = await supabase
       .from("users")
       .select("*", { count: "exact", head: true });
@@ -76,13 +76,15 @@ async function checkUsersTable() {
       console.log("   - created_at: TIMESTAMP (생성 시간)");
     } else {
       console.log(`\n총 ${users.length}명의 사용자:\n`);
-      
+
       users.forEach((user, index) => {
         console.log(`${index + 1}. 사용자 #${index + 1}`);
         console.log(`   ID: ${user.id}`);
         console.log(`   Clerk ID: ${user.clerk_id}`);
         console.log(`   이름: ${user.name}`);
-        console.log(`   생성일: ${new Date(user.created_at).toLocaleString("ko-KR")}`);
+        console.log(
+          `   생성일: ${new Date(user.created_at).toLocaleString("ko-KR")}`,
+        );
         console.log("");
       });
     }

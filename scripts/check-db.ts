@@ -1,6 +1,6 @@
 /**
  * Supabase 데이터베이스 상태 확인 스크립트
- * 
+ *
  * 이 스크립트는 데이터베이스의 테이블, 컬럼, RLS 상태 등을 확인합니다.
  */
 
@@ -57,7 +57,8 @@ async function checkDatabase() {
     console.log("\n📦 Storage 버킷 정보:");
     console.log("─".repeat(50));
 
-    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+    const { data: buckets, error: bucketsError } =
+      await supabase.storage.listBuckets();
 
     if (bucketsError) {
       console.error("❌ 버킷 조회 오류:", bucketsError.message);
@@ -90,7 +91,7 @@ async function checkDatabase() {
           console.log(`총 ${files.length}개의 파일/폴더:\n`);
           files.forEach((file, index) => {
             console.log(
-              `${index + 1}. ${file.name} (${file.metadata?.size ? `${(file.metadata.size / 1024).toFixed(2)} KB` : "폴더"})`
+              `${index + 1}. ${file.name} (${file.metadata?.size ? `${(file.metadata.size / 1024).toFixed(2)} KB` : "폴더"})`,
             );
           });
         } else {

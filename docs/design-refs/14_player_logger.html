@@ -1,0 +1,254 @@
+<!doctype html>
+
+<html class="dark" lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Logger Player - GripLab</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#06f9f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2323",
+              "accent-red": "#ff4d4d",
+              "accent-yellow": "#ffd700",
+              "accent-green": "#00ff88",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "Noto Sans KR", "sans-serif"],
+              body: ["Noto Sans KR", "sans-serif"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      /* Custom scrollbar hiding for clean look */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col overflow-hidden selection:bg-primary selection:text-background-dark"
+  >
+    <!-- Top Navigation Bar -->
+    <header class="flex items-center justify-between px-4 py-3 bg-background-light dark:bg-background-dark z-10">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl">timer</span>
+        <h2 class="text-2xl font-bold tracking-tight">04:12</h2>
+      </div>
+      <button
+        class="flex items-center gap-1 px-3 py-1.5 rounded bg-accent-red/10 border border-accent-red/20 active:bg-accent-red/20 transition-colors"
+      >
+        <span class="text-accent-red text-sm font-bold tracking-wide">중단</span>
+      </button>
+    </header>
+    <!-- Context & Progress -->
+    <section class="px-4 pb-4 pt-2 flex flex-col gap-3 shrink-0">
+      <div class="flex justify-between items-end">
+        <div>
+          <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-widest mb-1">
+            Current Routine
+          </p>
+          <h1 class="text-xl font-bold leading-tight">행보드 루틴 A</h1>
+        </div>
+        <div class="text-right">
+          <span class="text-primary text-xl font-bold">3</span>
+          <span class="text-slate-500 dark:text-slate-500 text-sm">/ 10 Set</span>
+        </div>
+      </div>
+      <!-- Progress Bar -->
+      <div class="h-1.5 w-full bg-slate-200 dark:bg-[#1c2e2e] rounded-full overflow-hidden">
+        <div
+          class="h-full bg-primary shadow-[0_0_10px_rgba(6,249,249,0.5)] transition-all duration-300 ease-out"
+          style="width: 30%"
+        ></div>
+      </div>
+    </section>
+    <!-- Data Grid Header -->
+    <div
+      class="grid grid-cols-12 gap-2 px-4 py-2 border-b border-slate-200 dark:border-[#2a3f3f] text-slate-500 dark:text-[#5a7a7a] text-xs font-medium uppercase tracking-wider shrink-0"
+    >
+      <div class="col-span-2 text-center">Set</div>
+      <div class="col-span-3 text-center">Time/Rep</div>
+      <div class="col-span-2 text-center">Load</div>
+      <div class="col-span-5 text-center">Result</div>
+    </div>
+    <!-- Scrollable Grid Body -->
+    <main class="flex-1 overflow-y-auto no-scrollbar px-2 pb-24 relative">
+      <!-- Fade gradient at top -->
+      <div
+        class="sticky top-0 left-0 right-0 h-4 bg-gradient-to-b from-background-light dark:from-background-dark to-transparent z-10 pointer-events-none"
+      ></div>
+      <div class="flex flex-col gap-1.5">
+        <!-- Completed Row 1 -->
+        <div
+          class="grid grid-cols-12 gap-2 p-3 items-center rounded bg-slate-100/50 dark:bg-[#162222] text-slate-400 dark:text-slate-500 opacity-60"
+        >
+          <div class="col-span-2 text-center font-bold text-lg">1</div>
+          <div class="col-span-3 text-center text-base">7s</div>
+          <div class="col-span-2 text-center text-sm">+0kg</div>
+          <div class="col-span-5 flex justify-center">
+            <span class="material-symbols-outlined text-accent-green">check_circle</span>
+          </div>
+        </div>
+        <!-- Completed Row 2 -->
+        <div
+          class="grid grid-cols-12 gap-2 p-3 items-center rounded bg-slate-100/50 dark:bg-[#162222] text-slate-400 dark:text-slate-500 opacity-60"
+        >
+          <div class="col-span-2 text-center font-bold text-lg">2</div>
+          <div class="col-span-3 text-center text-base">7s</div>
+          <div class="col-span-2 text-center text-sm">+5kg</div>
+          <div class="col-span-5 flex justify-center">
+            <span class="material-symbols-outlined text-accent-green">check_circle</span>
+          </div>
+        </div>
+        <!-- ACTIVE ROW -->
+        <div
+          class="grid grid-cols-12 gap-2 p-3 py-5 items-center rounded-lg bg-white dark:bg-[#1a2c2c] border-l-4 border-l-primary shadow-lg relative my-2 ring-1 ring-black/5 dark:ring-white/5 transition-all"
+        >
+          <!-- Active Indicator Glow -->
+          <div class="absolute inset-0 bg-primary/5 pointer-events-none rounded-lg"></div>
+          <div class="col-span-2 text-center">
+            <span class="block text-primary font-bold text-2xl drop-shadow-[0_0_5px_rgba(6,249,249,0.3)]">3</span>
+            <span class="text-[10px] text-primary/70 uppercase">Current</span>
+          </div>
+          <div class="col-span-3 text-center">
+            <span class="text-xl font-bold dark:text-white">7s</span>
+          </div>
+          <div class="col-span-2 text-center">
+            <div
+              class="inline-flex items-center justify-center px-2 py-0.5 rounded bg-slate-200 dark:bg-[#0f2323] border border-slate-300 dark:border-[#2a3f3f]"
+            >
+              <span class="text-sm font-bold text-slate-700 dark:text-[#9bbbbb]">+5kg</span>
+            </div>
+          </div>
+          <!-- Interaction Buttons -->
+          <div class="col-span-5 flex justify-between gap-1 pl-2">
+            <!-- Success Button -->
+            <button
+              class="group relative flex-1 aspect-square max-h-12 flex items-center justify-center rounded-md bg-[#0f2323] border border-[#2a3f3f] hover:border-accent-green hover:bg-accent-green/10 active:scale-95 transition-all"
+            >
+              <span
+                class="material-symbols-outlined text-slate-600 group-hover:text-accent-green text-2xl transition-colors"
+                >circle</span
+              >
+            </button>
+            <!-- Half Button -->
+            <button
+              class="group relative flex-1 aspect-square max-h-12 flex items-center justify-center rounded-md bg-[#0f2323] border border-[#2a3f3f] hover:border-accent-yellow hover:bg-accent-yellow/10 active:scale-95 transition-all"
+            >
+              <span
+                class="material-symbols-outlined text-slate-600 group-hover:text-accent-yellow text-2xl transition-colors"
+                >change_history</span
+              >
+            </button>
+            <!-- Fail Button -->
+            <button
+              class="group relative flex-1 aspect-square max-h-12 flex items-center justify-center rounded-md bg-[#0f2323] border border-[#2a3f3f] hover:border-accent-red hover:bg-accent-red/10 active:scale-95 transition-all"
+            >
+              <span
+                class="material-symbols-outlined text-slate-600 group-hover:text-accent-red text-2xl transition-colors"
+                >close</span
+              >
+            </button>
+          </div>
+        </div>
+        <!-- Pending Row 4 -->
+        <div
+          class="grid grid-cols-12 gap-2 p-3 items-center rounded bg-transparent border border-slate-200 dark:border-[#1c2e2e] text-slate-400 dark:text-slate-600 opacity-50"
+        >
+          <div class="col-span-2 text-center font-bold text-lg">4</div>
+          <div class="col-span-3 text-center text-base">7s</div>
+          <div class="col-span-2 text-center text-sm">+5kg</div>
+          <div class="col-span-5 flex justify-center">
+            <span class="h-0.5 w-4 bg-slate-600"></span>
+          </div>
+        </div>
+        <!-- Pending Row 5 -->
+        <div
+          class="grid grid-cols-12 gap-2 p-3 items-center rounded bg-transparent border border-slate-200 dark:border-[#1c2e2e] text-slate-400 dark:text-slate-600 opacity-50"
+        >
+          <div class="col-span-2 text-center font-bold text-lg">5</div>
+          <div class="col-span-3 text-center text-base">7s</div>
+          <div class="col-span-2 text-center text-sm">+5kg</div>
+          <div class="col-span-5 flex justify-center">
+            <span class="h-0.5 w-4 bg-slate-600"></span>
+          </div>
+        </div>
+        <!-- Pending Row 6 -->
+        <div
+          class="grid grid-cols-12 gap-2 p-3 items-center rounded bg-transparent border border-slate-200 dark:border-[#1c2e2e] text-slate-400 dark:text-slate-600 opacity-50"
+        >
+          <div class="col-span-2 text-center font-bold text-lg">6</div>
+          <div class="col-span-3 text-center text-base">10s</div>
+          <div class="col-span-2 text-center text-sm">+0kg</div>
+          <div class="col-span-5 flex justify-center">
+            <span class="h-0.5 w-4 bg-slate-600"></span>
+          </div>
+        </div>
+        <!-- Spacer for visual balance -->
+        <div class="h-20"></div>
+      </div>
+    </main>
+    <!-- Footer Summary -->
+    <footer
+      class="border-t border-slate-200 dark:border-[#2a3f3f] bg-background-light dark:bg-background-dark p-4 shrink-0 safe-area-bottom"
+    >
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1 border-r border-slate-200 dark:border-[#2a3f3f]">
+          <span class="text-xs text-slate-500 uppercase font-medium">Rest Timer</span>
+          <span class="text-xl font-bold dark:text-white">01:58</span>
+        </div>
+        <div class="flex flex-col gap-1 pl-2">
+          <span class="text-xs text-slate-500 uppercase font-medium">Completion</span>
+          <div class="flex items-baseline gap-2">
+            <span class="text-xl font-bold dark:text-white">30%</span>
+            <span class="text-xs text-accent-green font-medium">Good Pace</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -41,7 +41,7 @@ export async function POST() {
         },
         {
           onConflict: "clerk_id",
-        }
+        },
       )
       .select()
       .single();
@@ -50,7 +50,7 @@ export async function POST() {
       console.error("Supabase sync error:", error);
       return NextResponse.json(
         { error: "Failed to sync user", details: error.message },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -62,7 +62,7 @@ export async function POST() {
     console.error("Sync user error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

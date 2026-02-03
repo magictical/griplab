@@ -1,0 +1,274 @@
+<!doctype html>
+
+<html class="dark" lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GripLab - Settings</title>
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#06f9f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2323",
+              "surface-dark": "#162929",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "Noto Sans", "sans-serif"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", "2xl": "1rem", full: "9999px" },
+            boxShadow: {
+              neon: "0 0 10px rgba(6, 249, 249, 0.3)",
+              "neon-strong": "0 0 15px rgba(6, 249, 249, 0.6)",
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom Toggle Switch Styles */
+      .toggle-checkbox:checked {
+        right: 0;
+        border-color: #06f9f9;
+      }
+      .toggle-checkbox:checked + .toggle-label {
+        background-color: #06f9f9;
+      }
+      .toggle-checkbox:checked + .toggle-label:before {
+        transform: translateX(100%);
+      }
+
+      /* Font fix for Korean */
+      body {
+        font-family: "Space Grotesk", "Noto Sans KR", sans-serif;
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-white font-display selection:bg-primary selection:text-background-dark"
+  >
+    <div class="max-w-md mx-auto relative flex h-full min-h-screen w-full flex-col overflow-x-hidden">
+      <!-- Top App Bar -->
+      <header
+        class="sticky top-0 z-10 flex items-center bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md p-4 pb-2 justify-between border-b border-gray-200 dark:border-white/5"
+      >
+        <button
+          class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+        >
+          <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+        </button>
+        <h2 class="text-xl font-bold leading-tight tracking-tight flex-1 text-center pr-10">설정</h2>
+      </header>
+      <main class="flex-1 flex flex-col gap-6 p-4">
+        <!-- Profile Card Section -->
+        <section
+          class="rounded-2xl bg-white dark:bg-surface-dark p-5 shadow-sm border border-gray-100 dark:border-white/5 relative overflow-hidden group"
+        >
+          <!-- Decorative background glow -->
+          <div
+            class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-500"
+          ></div>
+          <!-- User Info -->
+          <div class="flex items-center gap-4 relative z-10 mb-6">
+            <div class="relative shrink-0">
+              <div
+                class="w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-800 bg-cover bg-center border-2 border-primary shadow-neon"
+                data-alt="User profile avatar showing a climber"
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuD4iWFuSO7adXo6zGwYH53zxIe4W3QP5eSdhxwAkDJiQfrGHP0Hqpfwt8S2HTwfOQAc49xTn9wmOBlPwCmUqwQUeCjltzpHg6TVo1wxtUssGgU2jwu-MqTKRcr98G2XujjHNOwkzLNHhWd8wBTPJnytMkqWnSk_aieEXishuR0pfeaqFLZPjImzg3yY2K_cmypUiC5HNaSL8F0xSS4cjsr8nCOsZHMJ6HiWsh0W42dfQsUN7JUYkI30JBWKLaoiQ3Dg1tSjIAMpGzRB&quot;);
+                "
+              ></div>
+              <div class="absolute -bottom-1 -right-1 bg-background-dark rounded-full p-1 border border-white/10">
+                <span class="material-symbols-outlined text-primary text-[16px]">verified</span>
+              </div>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <h3 class="text-2xl font-bold leading-none tracking-tight">Climber01</h3>
+              <div class="flex items-center gap-2">
+                <span
+                  class="px-2 py-0.5 rounded text-xs font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wider"
+                  >V5 Warrior</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- Gym Location -->
+          <div
+            class="flex items-center justify-between bg-gray-50 dark:bg-[#0f2323]/50 rounded-xl p-3 mb-4 border border-gray-100 dark:border-white/5"
+          >
+            <div class="flex items-center gap-3 overflow-hidden">
+              <div
+                class="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400 shrink-0"
+              >
+                <span class="material-symbols-outlined text-[18px]">location_on</span>
+              </div>
+              <p class="text-sm font-medium truncate text-gray-700 dark:text-gray-200">서울 볼더짐 강남점</p>
+            </div>
+            <button class="text-primary text-sm font-bold hover:text-primary/80 transition-colors px-2 py-1 shrink-0">
+              변경
+            </button>
+          </div>
+          <!-- Progress Bar -->
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-end">
+              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">게스트 유저</span>
+              <div class="flex items-center gap-1 text-primary">
+                <span class="text-xs font-bold">프로필 완성하기</span>
+                <span class="text-xs font-display">20%</span>
+              </div>
+            </div>
+            <div class="h-2 w-full bg-gray-200 dark:bg-black/40 rounded-full overflow-hidden">
+              <div class="h-full bg-primary shadow-neon rounded-full" style="width: 20%"></div>
+            </div>
+          </div>
+        </section>
+        <!-- App Settings Group -->
+        <section class="flex flex-col gap-2">
+          <h3 class="px-2 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">앱 설정</h3>
+          <div
+            class="bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-gray-100 dark:border-white/5 divide-y divide-gray-100 dark:divide-white/5"
+          >
+            <!-- Sound Toggle -->
+            <div class="flex items-center justify-between p-4 min-h-[56px]">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">volume_up</span>
+                <span class="text-base font-medium">효과음</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input checked="" class="sr-only peer" type="checkbox" value="" />
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/80 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary peer-checked:shadow-neon"
+                ></div>
+              </label>
+            </div>
+            <!-- Dark Mode Toggle -->
+            <div class="flex items-center justify-between p-4 min-h-[56px]">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">dark_mode</span>
+                <span class="text-base font-medium">다크 모드</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input checked="" class="sr-only peer" type="checkbox" value="" />
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/80 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary peer-checked:shadow-neon"
+                ></div>
+              </label>
+            </div>
+            <!-- Notifications Link -->
+            <button
+              class="flex items-center justify-between w-full p-4 min-h-[56px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left"
+            >
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">notifications</span>
+                <span class="text-base font-medium">알림 설정</span>
+              </div>
+              <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+            </button>
+          </div>
+        </section>
+        <!-- Support Group -->
+        <section class="flex flex-col gap-2">
+          <h3 class="px-2 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">지원</h3>
+          <div
+            class="bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-gray-100 dark:border-white/5 divide-y divide-gray-100 dark:divide-white/5"
+          >
+            <div class="flex items-center justify-between p-4 min-h-[56px]">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">info</span>
+                <span class="text-base font-medium">버전 정보</span>
+              </div>
+              <span class="text-sm text-gray-500 dark:text-gray-400 font-mono">v2.4.0</span>
+            </div>
+            <button
+              class="flex items-center justify-between w-full p-4 min-h-[56px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left"
+            >
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">description</span>
+                <span class="text-base font-medium">이용약관</span>
+              </div>
+              <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+            </button>
+            <button
+              class="flex items-center justify-between w-full p-4 min-h-[56px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left"
+            >
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">help</span>
+                <span class="text-base font-medium">문의하기</span>
+              </div>
+              <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+            </button>
+          </div>
+        </section>
+        <!-- Account Management -->
+        <section class="flex flex-col gap-2 pt-4 pb-8">
+          <div class="flex flex-col rounded-xl overflow-hidden">
+            <button
+              class="flex items-center justify-center w-full p-3 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-medium"
+            >
+              로그아웃
+            </button>
+            <button
+              class="flex items-center justify-center w-full p-3 text-red-500/70 hover:text-red-500 transition-colors text-sm font-medium"
+            >
+              회원 탈퇴
+            </button>
+          </div>
+          <div class="text-center">
+            <p class="text-[10px] text-gray-400 dark:text-gray-600">GripLab © 2023 All rights reserved.</p>
+          </div>
+        </section>
+      </main>
+      <!-- Bottom Tab Bar (Visual Mockup for context) -->
+      <nav
+        class="sticky bottom-0 bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-white/5 flex justify-around items-center p-2 pb-6 z-20"
+      >
+        <button class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-primary transition-colors">
+          <span class="material-symbols-outlined">home</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-primary transition-colors">
+          <span class="material-symbols-outlined">timer</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 p-2 -mt-8">
+          <div
+            class="w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-neon text-background-dark"
+          >
+            <span class="material-symbols-outlined">add</span>
+          </div>
+        </button>
+        <button class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-primary transition-colors">
+          <span class="material-symbols-outlined">bar_chart</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 p-2 text-primary shadow-neon-sm">
+          <span class="material-symbols-outlined fill-current">settings</span>
+        </button>
+      </nav>
+    </div>
+  </body>
+</html>

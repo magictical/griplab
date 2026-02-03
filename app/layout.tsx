@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 /**
  * 한국어 로컬라이제이션 설정
  * koKR을 기반으로 하되, 커스텀 에러 메시지 추가
- * 
+ *
  * 참고: Clerk 공식 문서에 따라 localization을 appearance prop 안에 전달합니다.
  * https://clerk.com/docs/guides/customizing-clerk/localization
  */
@@ -44,8 +44,7 @@ const koreanLocalization = {
     // 비밀번호가 일치하지 않음
     form_password_incorrect: "비밀번호가 일치하지 않습니다.",
     // 이메일이 이미 사용 중
-    form_email_address_not_allowed:
-      "이 이메일 주소는 사용할 수 없습니다.",
+    form_email_address_not_allowed: "이 이메일 주소는 사용할 수 없습니다.",
     // 전화번호가 이미 사용 중
     form_phone_number_not_allowed: "이 전화번호는 사용할 수 없습니다.",
   },

@@ -16,7 +16,7 @@ Issue Number: N/A
 
 ## What is the new behavior?
 
-- 
+-
 
 ## Does this PR introduce a breaking change?
 

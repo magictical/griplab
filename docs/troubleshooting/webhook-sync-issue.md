@@ -9,6 +9,7 @@ Clerk 웹훅을 통해 사용자 정보를 Supabase에 자동으로 동기화할
 **문제**: `/api/webhooks/clerk` 엔드포인트가 존재하지 않음
 
 **해결**:
+
 - `app/api/webhooks/clerk/route.ts` 파일이 존재하는지 확인
 - 파일이 없다면 프로젝트를 최신 버전으로 업데이트
 
@@ -16,7 +17,8 @@ Clerk 웹훅을 통해 사용자 정보를 Supabase에 자동으로 동기화할
 
 **문제**: `http://localhost:3000/api/webhooks/clerk`로 설정되어 있음
 
-**원인**: 
+**원인**:
+
 - Clerk 서버는 인터넷을 통해 웹훅을 전송하므로 `localhost`에 접근할 수 없습니다.
 - 로컬 개발 환경에서는 터널링 서비스가 필요합니다.
 
@@ -25,20 +27,23 @@ Clerk 웹훅을 통해 사용자 정보를 Supabase에 자동으로 동기화할
 #### 방법 1: ngrok 사용 (권장)
 
 1. **ngrok 설치**:
+
    ```bash
    # Windows (Chocolatey)
    choco install ngrok
-   
+
    # 또는 직접 다운로드
    # https://ngrok.com/download
    ```
 
 2. **ngrok 실행**:
+
    ```bash
    ngrok http 3000
    ```
 
 3. **생성된 HTTPS URL 복사**:
+
    ```
    Forwarding: https://abc123.ngrok.io -> http://localhost:3000
    ```
@@ -62,6 +67,7 @@ Clerk 웹훅을 통해 사용자 정보를 Supabase에 자동으로 동기화할
 **문제**: `CLERK_WEBHOOK_SIGNING_SECRET`이 설정되지 않음
 
 **증상**:
+
 - 웹훅 검증 실패 에러
 - `Webhook verification failed` 응답
 
@@ -72,6 +78,7 @@ Clerk 웹훅을 통해 사용자 정보를 Supabase에 자동으로 동기화할
    - **Signing Secret** 복사 (예: `whsec_...`)
 
 2. **`.env` 파일에 추가**:
+
    ```env
    CLERK_WEBHOOK_SIGNING_SECRET=whsec_...
    ```
@@ -86,6 +93,7 @@ Clerk 웹훅을 통해 사용자 정보를 Supabase에 자동으로 동기화할
 **문제**: 웹훅 엔드포인트가 인증을 요구함
 
 **증상**:
+
 - `401 Unauthorized` 응답
 - 웹훅 요청이 거부됨
 
@@ -107,6 +115,7 @@ export default clerkMiddleware({
 **문제**: Clerk Dashboard에서 웹훅 이벤트를 선택하지 않음
 
 **증상**:
+
 - 웹훅은 도착하지만 사용자 동기화가 안 됨
 - 로그에 "Event received but not handled" 메시지
 
@@ -127,10 +136,12 @@ export default clerkMiddleware({
 **문제**: 웹훅 서명이 올바르지 않음
 
 **증상**:
+
 - `Webhook verification failed` 에러
 - `400 Bad Request` 응답
 
 **원인**:
+
 - `CLERK_WEBHOOK_SIGNING_SECRET`이 잘못됨
 - 환경 변수가 로드되지 않음
 - 웹훅 요청이 변조됨
@@ -143,9 +154,13 @@ export default clerkMiddleware({
    - `.env` 파일에 정확히 입력 (공백 없이)
 
 2. **환경 변수 로드 확인**:
+
    ```typescript
    // app/api/webhooks/clerk/route.ts에서 확인
-   console.log("Webhook secret exists:", !!process.env.CLERK_WEBHOOK_SIGNING_SECRET);
+   console.log(
+     "Webhook secret exists:",
+     !!process.env.CLERK_WEBHOOK_SIGNING_SECRET,
+   );
    ```
 
 3. **서버 재시작**:
@@ -199,6 +214,7 @@ curl -X POST http://localhost:3000/api/webhooks/clerk \
 **원인**: 서명 검증 실패
 
 **해결**:
+
 - `CLERK_WEBHOOK_SIGNING_SECRET` 확인
 - 환경 변수가 올바르게 로드되었는지 확인
 - 서버 재시작
@@ -208,6 +224,7 @@ curl -X POST http://localhost:3000/api/webhooks/clerk \
 **원인**: 미들웨어가 웹훅 경로를 인증 요구
 
 **해결**:
+
 - `middleware.ts`에서 `/api/webhooks/clerk`를 `publicRoutes`에 추가
 
 ### "Cannot connect to endpoint"
@@ -215,6 +232,7 @@ curl -X POST http://localhost:3000/api/webhooks/clerk \
 **원인**: 로컬 환경에서 `localhost` 사용
 
 **해결**:
+
 - ngrok 사용
 - 또는 프로덕션 URL 사용
 
@@ -223,6 +241,7 @@ curl -X POST http://localhost:3000/api/webhooks/clerk \
 **원인**: 이벤트 타입이 처리되지 않음
 
 **해결**:
+
 - `user.created` 또는 `user.updated` 이벤트인지 확인
 - Clerk Dashboard에서 해당 이벤트가 선택되어 있는지 확인
 
@@ -231,12 +250,14 @@ curl -X POST http://localhost:3000/api/webhooks/clerk \
 웹훅이 정상적으로 작동하면:
 
 1. **사용자 생성 시**:
+
    ```
    [Webhook] Received event: user.created
    [Webhook] User synced successfully: { clerk_id: 'user_...', supabase_id: '...' }
    ```
 
 2. **사용자 업데이트 시**:
+
    ```
    [Webhook] Received event: user.updated
    [Webhook] User synced successfully: { clerk_id: 'user_...', supabase_id: '...' }

@@ -20,6 +20,20 @@
       "options": {
         "printWidth": 200
       }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "printWidth": 120,
+        "htmlWhitespaceSensitivity": "css",
+        "singleAttributePerLine": false
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "options": {
+        "printWidth": 80
+      }
     }
   ]
 }

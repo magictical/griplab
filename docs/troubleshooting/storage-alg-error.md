@@ -1,6 +1,7 @@
 # Storage API "alg" (Algorithm) Header Parameter 에러 해결 가이드
 
 ## 🔴 에러 메시지
+
 ```
 StorageApiError: "alg" (Algorithm) Header Parameter value not allowed
 ```
@@ -41,12 +42,11 @@ StorageApiError: "alg" (Algorithm) Header Parameter value not allowed
 
 3. **Clerk Provider 추가**
    - **Provider Name**: `Clerk`
-   - **JWT Issuer (Issuer URL)**: 
+   - **JWT Issuer (Issuer URL)**:
      ```
      https://your-app-12.clerk.accounts.dev
      ```
      (실제 Clerk Frontend API URL로 교체)
-   
    - **JWKS Endpoint (JWKS URI)**:
      ```
      https://your-app-12.clerk.accounts.dev/.well-known/jwks.json
@@ -104,7 +104,7 @@ async accessToken() {
     // 먼저 Supabase 템플릿 시도
     const supabaseToken = await getToken({ template: "supabase" });
     if (supabaseToken) return supabaseToken;
-    
+
     // 기본 토큰 사용
     const defaultToken = await getToken();
     return defaultToken ?? null;
@@ -127,18 +127,21 @@ supabase status
 ```
 
 또는 Supabase Dashboard에서:
+
 - **Settings** → **API** → **JWT Settings** 확인
 - **JWT Secret** 또는 **JWT Signing Keys** 확인
 
 ### 2. Clerk 설정 확인
 
 Clerk Dashboard에서:
+
 - **Configure** → **JWT Templates** → `supabase` 템플릿 존재 여부 확인
 - **API Keys** → Frontend API URL 확인
 
 ### 3. 네트워크 요청 확인
 
 브라우저 개발자 도구에서:
+
 1. **Network** 탭 열기
 2. Storage API 요청 확인
 3. **Request Headers**에서 `Authorization` 헤더 확인
@@ -168,6 +171,7 @@ Clerk Dashboard에서:
 ## ✅ 예상 결과
 
 설정이 완료되면:
+
 - Storage API 요청이 성공적으로 처리됨
 - 파일 업로드/다운로드/삭제가 정상 작동
 - 에러 메시지가 사라짐

@@ -1,0 +1,369 @@
+<html class="dark" lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GripLab - 커스텀 트레이닝 생성</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#06e0ce",
+              "primary-hover": "#04c2b2",
+              "primary-dim": "rgba(6, 224, 206, 0.1)",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0d1414",
+              "surface-dark": "#1d2626",
+              "surface-hover": "#252f2f",
+              "surface-input": "#2a3636",
+              "accent-blue": "#00b4d8",
+              "accent-green": "#00e676",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "Noto Sans KR", "sans-serif"],
+              sans: ["Noto Sans KR", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.75rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              "2xl": "2rem",
+              full: "9999px",
+            },
+            boxShadow: {
+              neon: "0 0 15px rgba(6, 224, 206, 0.35)",
+              "neon-box": "0 0 10px rgba(6, 224, 206, 0.15), inset 0 0 5px rgba(6, 224, 206, 0.05)",
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      body {
+        min-height: 100dvh;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .toggle-checkbox:checked {
+        right: 0;
+        border-color: #06e0ce;
+      }
+      .toggle-checkbox:checked + .toggle-label {
+        background-color: #06e0ce;
+      }
+      .timeline-bar {
+        @apply w-full rounded-t-sm transition-all duration-300;
+      }
+      .glass-panel {
+        background: rgba(13, 20, 20, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body class="bg-[#0d1414] text-white font-sans antialiased min-h-screen flex flex-col pb-[400px]">
+    <header class="sticky top-0 z-50 bg-[#0d1414]/95 backdrop-blur-md px-4 py-3 border-b border-white/5">
+      <div class="flex items-center justify-between">
+        <button class="flex items-center justify-center size-10 rounded-full active:bg-white/10 transition-colors">
+          <span class="material-symbols-outlined text-2xl text-gray-400">arrow_back</span>
+        </button>
+        <h2 class="text-lg font-bold tracking-tight text-gray-200">커스텀 트레이닝 생성</h2>
+        <div class="flex gap-2">
+          <button
+            class="bg-[#2a3636] text-xs font-medium px-3 py-1.5 rounded-full hover:bg-[#384545] transition-colors border border-white/10"
+          >
+            불러오기
+          </button>
+          <button
+            class="bg-[#2a3636] size-8 flex items-center justify-center rounded-full hover:bg-[#384545] transition-colors border border-white/10"
+          >
+            <span class="material-symbols-outlined text-sm">save</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="flex-1 w-full max-w-md mx-auto p-4 space-y-6">
+      <div class="space-y-2">
+        <label class="text-xs font-bold text-primary uppercase tracking-wider ml-1">루틴 이름</label>
+        <input
+          class="w-full bg-[#1d2626] border-white/5 border rounded-xl px-4 py-4 text-gray-200 placeholder:text-gray-600 focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none shadow-sm"
+          placeholder="새 트레이닝 루틴 이름을 입력하세요"
+          type="text"
+        />
+      </div>
+      <div class="space-y-3">
+        <div class="bg-[#1d2626] rounded-xl border border-white/5 overflow-hidden shadow-lg">
+          <div class="px-4 py-3 flex items-center justify-between hover:bg-[#252f2f] transition-colors cursor-pointer">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">analytics</span>
+              <span class="text-gray-300 font-medium text-sm">개요 및 설정</span>
+            </div>
+            <span class="material-symbols-outlined text-gray-400">expand_more</span>
+          </div>
+          <div class="px-4 pb-4 border-t border-white/5 pt-4 space-y-5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-xl">fitness_center</span>
+                <label class="text-sm font-medium text-gray-200">보드 트레이닝 활성화</label>
+              </div>
+              <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                <input
+                  checked=""
+                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer right-4 checked:right-0 transition-all duration-300"
+                  id="board-toggle"
+                  name="toggle"
+                  type="checkbox"
+                />
+                <label
+                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
+                  for="board-toggle"
+                ></label>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <button
+                class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-primary bg-primary/10 transition-all shadow-neon-box"
+              >
+                <span class="material-symbols-outlined text-3xl text-primary">layers</span>
+                <span class="text-xs font-bold text-primary">행보드</span>
+              </button>
+              <button
+                class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-white/10 bg-[#2a3636] hover:bg-[#384545] transition-all"
+              >
+                <span class="material-symbols-outlined text-3xl text-gray-400">upload</span>
+                <span class="text-xs font-bold text-gray-400">노행 리프트</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-4 pb-8">
+        <div
+          class="group relative bg-[#1d2626] rounded-xl border border-white/5 overflow-hidden flex items-stretch h-16 shadow-md hover:border-gray-600 transition-colors cursor-move"
+        >
+          <div class="w-1.5 bg-primary h-full flex-shrink-0 shadow-[0_0_10px_rgba(6,224,206,0.5)]"></div>
+          <div class="flex-1 flex items-center justify-between px-4 pl-3">
+            <div class="flex flex-col justify-center">
+              <span class="font-bold text-gray-100 text-base">운동 1</span>
+              <span class="text-[10px] text-primary font-mono tracking-wider">SINGLE EXERCISE</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="bg-black/20 px-3 py-1 rounded-md border border-white/5">
+                <span class="text-gray-200 text-sm font-mono font-bold">0:07</span>
+              </div>
+              <button class="text-gray-500 hover:text-red-400 transition-colors p-1">
+                <span class="material-symbols-outlined text-xl">close</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="border border-primary/40 rounded-xl overflow-hidden bg-primary/[0.03] shadow-neon-box relative">
+          <div class="absolute top-0 right-0 p-2 opacity-50 pointer-events-none">
+            <span class="material-symbols-outlined text-primary/30 text-6xl">repeat</span>
+          </div>
+          <div
+            class="bg-primary/10 border-b border-primary/20 px-4 py-3 flex items-center justify-between backdrop-blur-sm"
+          >
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-lg">repeat</span>
+              <span class="text-sm font-bold text-primary">세트 반복: 4회</span>
+            </div>
+            <button class="text-gray-400 hover:text-red-400 transition-colors">
+              <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+          </div>
+          <div class="p-3 space-y-3">
+            <div
+              class="group relative bg-[#1d2626] rounded-lg border border-white/5 overflow-hidden flex items-stretch h-14 shadow-sm hover:border-primary/30 transition-colors"
+            >
+              <div class="w-1.5 bg-primary h-full flex-shrink-0"></div>
+              <div class="flex-1 flex items-center justify-between px-4 pl-3">
+                <span class="font-medium text-gray-200 text-sm">운동 2</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-gray-300 text-sm font-mono bg-black/30 px-2 py-0.5 rounded">0:05</span>
+                  <button class="text-gray-500 hover:text-red-400 p-1">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="group relative bg-[#1d2626] rounded-lg border border-white/5 overflow-hidden flex items-stretch h-14 shadow-sm hover:border-accent-green/30 transition-colors"
+            >
+              <div class="w-1.5 bg-accent-green h-full flex-shrink-0"></div>
+              <div class="flex-1 flex items-center justify-between px-4 pl-3">
+                <span class="font-medium text-gray-200 text-sm">휴식</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-gray-300 text-sm font-mono bg-black/30 px-2 py-0.5 rounded">0:03</span>
+                  <button class="text-gray-500 hover:text-red-400 p-1">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="group relative bg-[#1d2626] rounded-xl border border-white/5 overflow-hidden flex items-stretch h-16 shadow-md hover:border-gray-600 transition-colors"
+        >
+          <div class="w-1.5 bg-accent-green h-full flex-shrink-0 shadow-[0_0_10px_rgba(0,230,118,0.3)]"></div>
+          <div class="flex-1 flex items-center justify-between px-4 pl-3">
+            <div class="flex flex-col justify-center">
+              <span class="font-bold text-gray-100 text-base">휴식 (롱 레스트)</span>
+              <span class="text-[10px] text-accent-green font-mono tracking-wider">RECOVERY</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="bg-black/20 px-3 py-1 rounded-md border border-white/5">
+                <span class="text-gray-200 text-sm font-mono font-bold">0:30</span>
+              </div>
+              <button class="text-gray-500 hover:text-red-400 transition-colors p-1">
+                <span class="material-symbols-outlined text-xl">close</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div
+      class="fixed bottom-0 left-0 w-full glass-panel z-50 pt-4 pb-8 px-5 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)]"
+    >
+      <div class="max-w-md mx-auto space-y-6">
+        <div class="grid grid-cols-4 gap-2 border-b border-white/5 pb-4">
+          <div class="flex flex-col items-center">
+            <span class="text-[10px] font-bold text-gray-500 uppercase">총 운동</span>
+            <span class="text-sm font-display font-bold text-primary drop-shadow-[0_0_8px_rgba(6,224,206,0.5)]"
+              >5회</span
+            >
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[10px] font-bold text-gray-500 uppercase">총 세트</span>
+            <span class="text-sm font-display font-bold text-gray-300">4세트</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[10px] font-bold text-gray-500 uppercase">TUT</span>
+            <span class="text-sm font-display font-bold text-primary">00:27</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[10px] font-bold text-gray-500 uppercase">전체 시간</span>
+            <span class="text-sm font-display font-bold text-white">01:10</span>
+          </div>
+        </div>
+        <div class="flex justify-center -mb-2 relative z-20">
+          <div
+            class="bg-[#1d2626] p-1.5 rounded-2xl flex items-center gap-2 shadow-[0_8px_16px_rgba(0,0,0,0.4)] border border-white/10"
+          >
+            <button
+              class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 transition-all active:scale-95 group"
+            >
+              <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">add</span>
+              <span class="font-bold text-xs">운동</span>
+            </button>
+            <div class="w-px h-6 bg-white/10"></div>
+            <button
+              class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 transition-all active:scale-95"
+            >
+              <span class="material-symbols-outlined text-xl">playlist_add</span>
+              <span class="font-bold text-xs">세트</span>
+            </button>
+            <div class="w-px h-6 bg-white/10"></div>
+            <button
+              class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl hover:bg-white/5 text-accent-green transition-all active:scale-95"
+            >
+              <span class="material-symbols-outlined text-xl">timer</span>
+              <span class="font-bold text-xs">휴식</span>
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2 pt-2">
+          <div class="flex justify-between items-end px-1 mb-1">
+            <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Intensity Graph</span>
+            <div class="flex items-center gap-3 text-[9px]">
+              <div class="flex items-center gap-1">
+                <div class="size-1.5 rounded-full bg-primary"></div>
+                <span class="text-gray-400">운동</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="size-1.5 rounded-full bg-accent-green"></div>
+                <span class="text-gray-400">휴식</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="h-24 flex items-end w-full bg-[#0a0f0f] rounded-xl overflow-hidden px-1 pt-4 pb-0 gap-[2px] border border-white/5 relative"
+          >
+            <div class="absolute inset-0 flex flex-col justify-between py-2 pointer-events-none opacity-20">
+              <div class="w-full h-px bg-white/30 border-t border-dashed"></div>
+              <div class="w-full h-px bg-white/20"></div>
+              <div class="w-full h-px bg-white/10"></div>
+            </div>
+            <div class="w-full bg-primary timeline-bar shadow-[0_0_12px_rgba(6,224,206,0.6)]" style="height: 25%"></div>
+            <div
+              class="w-full bg-primary timeline-bar opacity-90 shadow-[0_0_8px_rgba(6,224,206,0.4)]"
+              style="height: 18%"
+            ></div>
+            <div class="w-full bg-accent-green timeline-bar opacity-80" style="height: 10%"></div>
+            <div
+              class="w-full bg-primary timeline-bar opacity-90 shadow-[0_0_8px_rgba(6,224,206,0.4)]"
+              style="height: 18%"
+            ></div>
+            <div class="w-full bg-accent-green timeline-bar opacity-80" style="height: 10%"></div>
+            <div
+              class="w-full bg-primary timeline-bar opacity-90 shadow-[0_0_8px_rgba(6,224,206,0.4)]"
+              style="height: 18%"
+            ></div>
+            <div class="w-full bg-accent-green timeline-bar opacity-80" style="height: 10%"></div>
+            <div
+              class="w-full bg-primary timeline-bar opacity-90 shadow-[0_0_8px_rgba(6,224,206,0.4)]"
+              style="height: 18%"
+            ></div>
+            <div
+              class="w-[200%] bg-accent-green timeline-bar shadow-[0_0_15px_rgba(0,230,118,0.5)]"
+              style="height: 85%"
+            ></div>
+            <div class="w-full h-0"></div>
+          </div>
+          <div class="flex justify-between items-center px-1 text-[9px] text-gray-500 font-mono mt-1">
+            <span>00:00</span>
+            <span>TOTAL 01:10</span>
+          </div>
+        </div>
+        <button
+          class="w-full h-[56px] bg-primary hover:bg-primary-hover active:scale-[0.99] transition-all rounded-2xl flex items-center justify-center shadow-neon group"
+        >
+          <span class="text-[#0d1414] font-bold text-base mr-2">루틴 생성 완료</span>
+          <span class="material-symbols-outlined text-[#0d1414] text-xl group-hover:translate-x-1 transition-transform"
+            >check_circle</span
+          >
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

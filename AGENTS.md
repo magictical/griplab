@@ -37,13 +37,11 @@ pnpm lint
 이 프로젝트는 Clerk와 Supabase의 네이티브 통합 (2025년 4월 이후 권장 방식)을 사용합니다:
 
 1. **인증 흐름**:
-
    - Clerk가 사용자 인증 처리
    - `SyncUserProvider`가 로그인 시 자동으로 Clerk 사용자를 Supabase `users` 테이블에 동기화
    - Supabase 클라이언트가 Clerk 토큰을 사용하여 인증 (JWT 템플릿 불필요)
 
 2. **Supabase 클라이언트 파일들** (`lib/supabase/`):
-
    - `clerk-client.ts`: Client Component용 (useClerkSupabaseClient hook)
      - Clerk 세션 토큰으로 인증된 사용자의 데이터 접근
      - RLS 정책이 `auth.jwt()->>'sub'`로 Clerk user ID 확인
@@ -154,7 +152,8 @@ SUPABASE_SERVICE_ROLE_KEY=
 NEXT_PUBLIC_STORAGE_BUCKET=data-griplab
 ```
 
-> **⚠️ 중요**: 
+> **⚠️ 중요**:
+>
 > - `.env` 파일은 `.gitignore`에 포함되어 Git에 커밋되지 않습니다
 > - `SUPABASE_SERVICE_ROLE_KEY`는 관리자 권한이므로 절대 공개하지 마세요
 > - 실제 API 키 값은 각 서비스의 Dashboard에서 발급받아 입력하세요

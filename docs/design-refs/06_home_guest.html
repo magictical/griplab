@@ -1,0 +1,244 @@
+<!doctype html>
+
+<html class="dark" lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GripLab - Guest Home</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1fe7f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2123",
+              "card-dark": "#162a2d",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "Noto Sans KR", "sans-serif"],
+              body: ["Noto Sans KR", "sans-serif"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+            backgroundImage: {
+              "metal-gradient": "linear-gradient(135deg, #e2e8ec 0%, #ffffff 50%, #9ca3af 100%)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .metal-text {
+        background: linear-gradient(to bottom, #ffffff, #d1d5db);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .glass-panel {
+        background: rgba(22, 42, 45, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(31, 231, 249, 0.1);
+      }
+      /* Custom scrollbar hide */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-dark text-white font-display min-h-screen flex justify-center selection:bg-primary selection:text-black"
+  >
+    <!-- Mobile Container -->
+    <div
+      class="relative w-full max-w-[430px] min-h-screen bg-background-dark flex flex-col shadow-2xl overflow-x-hidden pb-[90px]"
+    >
+      <!-- Header / Top Bar -->
+      <header class="flex items-center justify-between px-5 pt-12 pb-4">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-3xl">landscape</span>
+          <h1 class="text-xl font-bold tracking-tight">GripLab</h1>
+        </div>
+        <button class="relative p-2 rounded-full hover:bg-white/5 transition-colors">
+          <span class="material-symbols-outlined text-white/70">notifications</span>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+        </button>
+      </header>
+      <!-- CTA Banner (Sticky-ish visuals) -->
+      <div class="px-4 mb-6">
+        <div
+          class="relative overflow-hidden rounded-xl bg-[#162a2d] border border-primary/30 p-4 shadow-[0_0_15px_rgba(31,231,249,0.15)] group cursor-pointer transition-all hover:border-primary/60"
+        >
+          <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl"></div>
+          <div class="flex items-center justify-between relative z-10">
+            <div class="flex flex-col gap-1">
+              <p class="text-primary text-sm font-bold tracking-wide uppercase">AI Coaching</p>
+              <p class="text-white text-base font-bold leading-tight">내 티어 확인하고<br />AI 코칭 받기</p>
+            </div>
+            <button
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-black shadow-lg shadow-primary/20"
+            >
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Tier Section (Hero) -->
+      <section class="flex flex-col px-4 py-4">
+        <h2 class="text-white text-xl font-bold mb-5 flex items-center gap-2">
+          나의 클라이밍 티어
+          <span class="material-symbols-outlined text-white/30 text-lg">lock</span>
+        </h2>
+        <div
+          class="relative flex flex-col items-center justify-center py-8 rounded-2xl bg-gradient-to-b from-[#162a2d] to-transparent border border-white/5"
+        >
+          <!-- Locked Visual -->
+          <div class="relative mb-6">
+            <!-- Glow effect behind -->
+            <div class="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150"></div>
+            <!-- Metallic Circle -->
+            <div
+              class="relative w-28 h-28 rounded-full bg-metal-gradient shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(0,0,0,0.5)] flex items-center justify-center z-10"
+            >
+              <span class="material-symbols-outlined text-4xl text-gray-700 drop-shadow-sm" style="font-size: 48px"
+                >lock</span
+              >
+            </div>
+            <!-- Question Mark Badge -->
+            <div
+              class="absolute -top-1 -right-1 z-20 w-10 h-10 rounded-full bg-primary border-4 border-[#162a2d] flex items-center justify-center shadow-lg"
+            >
+              <span class="text-background-dark font-bold text-lg font-display">?</span>
+            </div>
+          </div>
+          <div class="flex flex-col items-center gap-2 text-center z-10">
+            <p class="text-white text-xl font-bold tracking-tight">로그인 후 확인 가능</p>
+            <p class="text-gray-400 text-sm font-normal max-w-[240px]">
+              지금 로그인하고 내 클라이밍 실력을 <br />AI로 정밀하게 분석해보세요.
+            </p>
+          </div>
+          <button
+            class="mt-6 flex items-center justify-center h-10 px-6 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors border border-white/5"
+          >
+            <span class="mr-2">GripLab 시작하기</span>
+            <span class="material-symbols-outlined text-sm">login</span>
+          </button>
+        </div>
+      </section>
+      <!-- Chart Section (Blurred) -->
+      <section class="flex flex-col px-4 py-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-white text-xl font-bold">주간 성장 그래프</h3>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-gray-400 uppercase tracking-wider"
+            >PREVIEW</span
+          >
+        </div>
+        <div class="relative w-full aspect-[4/3] rounded-xl bg-[#162a2d] border border-white/5 overflow-hidden">
+          <!-- Overlay Message -->
+          <div
+            class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-background-dark/40 backdrop-blur-[2px]"
+          >
+            <div class="glass-panel px-6 py-4 rounded-xl flex flex-col items-center gap-2 shadow-2xl">
+              <span class="material-symbols-outlined text-primary text-3xl mb-1">bar_chart_off</span>
+              <p class="text-white font-bold text-base">데이터가 필요합니다</p>
+              <p class="text-xs text-gray-300 text-center">활동 기록이 없습니다.</p>
+            </div>
+          </div>
+          <!-- Blurred Chart Content -->
+          <div class="absolute inset-0 p-4 opacity-30 blur-sm pointer-events-none select-none">
+            <div class="flex flex-col h-full justify-between">
+              <div class="flex justify-between items-end h-3/4 gap-2">
+                <div class="w-full bg-primary/20 rounded-t-sm h-[40%]"></div>
+                <div class="w-full bg-primary/40 rounded-t-sm h-[60%]"></div>
+                <div class="w-full bg-primary/30 rounded-t-sm h-[30%]"></div>
+                <div class="w-full bg-primary/60 rounded-t-sm h-[80%]"></div>
+                <div class="w-full bg-primary rounded-t-sm h-[50%]"></div>
+                <div class="w-full bg-primary/50 rounded-t-sm h-[70%]"></div>
+                <div class="w-full bg-primary/20 rounded-t-sm h-[45%]"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-2">
+                <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span
+                ><span>SUN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Routine Button (Disabled State) -->
+      <div class="px-4 mt-2">
+        <button
+          class="w-full h-14 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center gap-2 group relative overflow-hidden active:scale-[0.98] transition-all"
+        >
+          <!-- Hover/Active tooltip hint simulation -->
+          <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <span class="material-symbols-outlined text-white/40 group-hover:text-white/60">add_circle</span>
+          <span class="text-white/40 font-medium text-lg group-hover:text-white/60">새 루틴 추가</span>
+          <!-- Locked indicator -->
+          <div
+            class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/40 flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-[14px] text-white/30">lock</span>
+          </div>
+        </button>
+        <p class="text-center text-[10px] text-gray-600 mt-2">* 정확한 분석을 위해 온보딩 설정이 필요합니다</p>
+      </div>
+      <!-- Spacer for bottom nav -->
+      <div class="h-6"></div>
+      <!-- Bottom Navigation -->
+      <nav
+        class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-background-dark/90 backdrop-blur-md border-t border-white/5 px-6 pb-6 pt-3 z-50"
+      >
+        <div class="flex justify-between items-center">
+          <button class="flex flex-col items-center gap-1 w-12 group">
+            <span class="material-symbols-outlined text-primary text-2xl group-hover:scale-110 transition-transform"
+              >home</span
+            >
+            <span class="text-[10px] text-primary font-medium">홈</span>
+          </button>
+          <button class="flex flex-col items-center gap-1 w-12 group">
+            <span class="material-symbols-outlined text-gray-500 text-2xl group-hover:text-gray-300 transition-colors"
+              >fitness_center</span
+            >
+            <span class="text-[10px] text-gray-500 group-hover:text-gray-300">훈련</span>
+          </button>
+          <button class="flex flex-col items-center gap-1 w-12 group">
+            <span class="material-symbols-outlined text-gray-500 text-2xl group-hover:text-gray-300 transition-colors"
+              >map</span
+            >
+            <span class="text-[10px] text-gray-500 group-hover:text-gray-300">암장</span>
+          </button>
+          <button class="flex flex-col items-center gap-1 w-12 group">
+            <span class="material-symbols-outlined text-gray-500 text-2xl group-hover:text-gray-300 transition-colors"
+              >person</span
+            >
+            <span class="text-[10px] text-gray-500 group-hover:text-gray-300">마이</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </body>
+</html>

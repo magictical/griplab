@@ -1,0 +1,341 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GripLab - Select Home Gym</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1fe7f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2123",
+              "surface-dark": "#162a2d",
+              "border-dark": "#2a4043",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "sans-serif"],
+              body: ["Noto Sans", "sans-serif"],
+            },
+            borderRadius: { DEFAULT: "1rem", lg: "2rem", xl: "3rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom scrollbar for webkit browsers */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #2a4043;
+        border-radius: 3px;
+      }
+      /* Neon glow effect for search */
+      .neon-border:focus-within {
+        box-shadow: 0 0 12px rgba(31, 231, 249, 0.25);
+        border-color: #1fe7f9;
+      }
+      /* Custom radio styling */
+      .custom-radio:checked {
+        background-color: #1fe7f9;
+        border-color: #1fe7f9;
+        background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuB_iA4T4rDEarAOn1sRB1_2IjAg7nujcbR92L9jLNpkhLAryUqhchuN96o1cWTydB3TGU641DqrtIDB9wkGrOBJxelUJzuazvPgVQqdmSLT8Ki9hvxNzLwCeSI4_3PwTqWTIAMvxoieWIrFLG1ymgkRCcLfGjVH7IR-XL-RK-JlZJBH_44Qj7USFS9NGYFpCNJd0Hijb-1QN0VFgGEoU2MfdaBhxY7rh3aaljexWBWNB5mAUgZaxOr2KoAJtwoRC1iZNYRA7oivF-xu);
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display antialiased selection:bg-primary selection:text-background-dark overflow-hidden"
+  >
+    <!-- Top App Bar -->
+    <div
+      class="shrink-0 flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 pt-12 justify-between sticky top-0 z-10"
+    >
+      <h2 class="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight flex-1">
+        Select Home Gym
+      </h2>
+      <div class="flex items-center justify-end">
+        <button
+          class="text-primary text-sm font-bold leading-normal tracking-wide uppercase hover:opacity-80 transition-opacity"
+        >
+          Skip and Explore
+        </button>
+      </div>
+    </div>
+    <!-- Search Bar -->
+    <div class="shrink-0 px-4 py-4 bg-background-light dark:bg-background-dark z-10">
+      <label class="flex flex-col h-14 w-full relative group">
+        <div
+          class="neon-border transition-all duration-300 flex w-full flex-1 items-center rounded-full border border-border-dark bg-surface-dark px-4 focus-within:border-primary"
+        >
+          <span class="material-symbols-outlined text-gray-400 group-focus-within:text-primary transition-colors"
+            >search</span
+          >
+          <input
+            class="w-full bg-transparent border-none text-white placeholder-gray-500 focus:ring-0 px-3 text-base font-medium h-full"
+            placeholder="Search gym name or city..."
+            value=""
+          />
+        </div>
+      </label>
+      <div class="mt-4 flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+        <button
+          class="shrink-0 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-semibold uppercase tracking-wider hover:bg-primary/20 transition-colors"
+        >
+          All
+        </button>
+        <button
+          class="shrink-0 px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-gray-400 text-xs font-semibold uppercase tracking-wider hover:border-gray-500 hover:text-white transition-colors"
+        >
+          Official
+        </button>
+        <button
+          class="shrink-0 px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-gray-400 text-xs font-semibold uppercase tracking-wider hover:border-gray-500 hover:text-white transition-colors"
+        >
+          Community
+        </button>
+        <button
+          class="shrink-0 px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-gray-400 text-xs font-semibold uppercase tracking-wider hover:border-gray-500 hover:text-white transition-colors"
+        >
+          New York
+        </button>
+      </div>
+    </div>
+    <!-- Scrollable List Area -->
+    <div class="flex-1 overflow-y-auto px-4 pb-24">
+      <div class="flex flex-col gap-3 py-2">
+        <!-- List Item 1: Selected -->
+        <label
+          class="group relative flex items-center justify-between rounded-2xl border border-primary bg-primary/5 p-4 cursor-pointer transition-all hover:bg-primary/10"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="h-12 w-12 rounded-xl bg-surface-dark flex items-center justify-center shrink-0 border border-border-dark"
+            >
+              <span class="material-symbols-outlined text-primary text-2xl">location_on</span>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <p class="text-white text-base font-bold leading-none">The Crux Climbing Gym</p>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-primary text-background-dark text-[10px] font-bold uppercase tracking-wide"
+                  >Official</span
+                >
+              </div>
+              <p class="text-gray-400 text-sm font-normal leading-normal">Downtown Austin, TX • 1.2mi</p>
+            </div>
+          </div>
+          <input
+            checked=""
+            class="custom-radio h-6 w-6 border-2 border-gray-600 bg-transparent text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer"
+            name="gym-selection"
+            type="radio"
+          />
+        </label>
+        <!-- List Item 2 -->
+        <label
+          class="group relative flex items-center justify-between rounded-2xl border border-border-dark bg-surface-dark p-4 cursor-pointer transition-all hover:border-gray-600 hover:bg-[#1c3336]"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="h-12 w-12 rounded-xl bg-background-dark flex items-center justify-center shrink-0 border border-border-dark"
+            >
+              <span class="material-symbols-outlined text-gray-400 text-2xl group-hover:text-white transition-colors"
+                >map</span
+              >
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <p class="text-gray-200 text-base font-semibold leading-none group-hover:text-white">
+                  MetroRock Brooklyn
+                </p>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-gray-700 text-gray-300 text-[10px] font-bold uppercase tracking-wide border border-gray-600"
+                  >Official</span
+                >
+              </div>
+              <p class="text-gray-500 text-sm font-normal leading-normal group-hover:text-gray-400">
+                Brooklyn, NY • 8.4mi
+              </p>
+            </div>
+          </div>
+          <input
+            class="custom-radio h-6 w-6 border-2 border-gray-600 bg-transparent text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer"
+            name="gym-selection"
+            type="radio"
+          />
+        </label>
+        <!-- List Item 3 -->
+        <label
+          class="group relative flex items-center justify-between rounded-2xl border border-border-dark bg-surface-dark p-4 cursor-pointer transition-all hover:border-gray-600 hover:bg-[#1c3336]"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="h-12 w-12 rounded-xl bg-background-dark flex items-center justify-center shrink-0 border border-border-dark"
+            >
+              <span class="material-symbols-outlined text-gray-400 text-2xl group-hover:text-white transition-colors"
+                >landscape</span
+              >
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <p class="text-gray-200 text-base font-semibold leading-none group-hover:text-white">
+                  Local Park Boulders
+                </p>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-transparent border border-gray-600 text-gray-400 text-[10px] font-bold uppercase tracking-wide"
+                  >Community</span
+                >
+              </div>
+              <p class="text-gray-500 text-sm font-normal leading-normal group-hover:text-gray-400">
+                Central Park, NY • 9.1mi
+              </p>
+            </div>
+          </div>
+          <input
+            class="custom-radio h-6 w-6 border-2 border-gray-600 bg-transparent text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer"
+            name="gym-selection"
+            type="radio"
+          />
+        </label>
+        <!-- List Item 4 -->
+        <label
+          class="group relative flex items-center justify-between rounded-2xl border border-border-dark bg-surface-dark p-4 cursor-pointer transition-all hover:border-gray-600 hover:bg-[#1c3336]"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="h-12 w-12 rounded-xl bg-background-dark flex items-center justify-center shrink-0 border border-border-dark"
+            >
+              <span class="material-symbols-outlined text-gray-400 text-2xl group-hover:text-white transition-colors"
+                >map</span
+              >
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <p class="text-gray-200 text-base font-semibold leading-none group-hover:text-white">Movement LIC</p>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-gray-700 text-gray-300 text-[10px] font-bold uppercase tracking-wide border border-gray-600"
+                  >Official</span
+                >
+              </div>
+              <p class="text-gray-500 text-sm font-normal leading-normal group-hover:text-gray-400">
+                Long Island City, NY • 10.2mi
+              </p>
+            </div>
+          </div>
+          <input
+            class="custom-radio h-6 w-6 border-2 border-gray-600 bg-transparent text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer"
+            name="gym-selection"
+            type="radio"
+          />
+        </label>
+        <!-- List Item 5 -->
+        <label
+          class="group relative flex items-center justify-between rounded-2xl border border-border-dark bg-surface-dark p-4 cursor-pointer transition-all hover:border-gray-600 hover:bg-[#1c3336]"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="h-12 w-12 rounded-xl bg-background-dark flex items-center justify-center shrink-0 border border-border-dark"
+            >
+              <span class="material-symbols-outlined text-gray-400 text-2xl group-hover:text-white transition-colors"
+                >landscape</span
+              >
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <p class="text-gray-200 text-base font-semibold leading-none group-hover:text-white">Rat Rock</p>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-transparent border border-gray-600 text-gray-400 text-[10px] font-bold uppercase tracking-wide"
+                  >Community</span
+                >
+              </div>
+              <p class="text-gray-500 text-sm font-normal leading-normal group-hover:text-gray-400">
+                Central Park, NY • 11.0mi
+              </p>
+            </div>
+          </div>
+          <input
+            class="custom-radio h-6 w-6 border-2 border-gray-600 bg-transparent text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer"
+            name="gym-selection"
+            type="radio"
+          />
+        </label>
+        <!-- List Item 6 -->
+        <label
+          class="group relative flex items-center justify-between rounded-2xl border border-border-dark bg-surface-dark p-4 cursor-pointer transition-all hover:border-gray-600 hover:bg-[#1c3336]"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="h-12 w-12 rounded-xl bg-background-dark flex items-center justify-center shrink-0 border border-border-dark"
+            >
+              <span class="material-symbols-outlined text-gray-400 text-2xl group-hover:text-white transition-colors"
+                >map</span
+              >
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <p class="text-gray-200 text-base font-semibold leading-none group-hover:text-white">
+                  The Cliffs at Harlem
+                </p>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-gray-700 text-gray-300 text-[10px] font-bold uppercase tracking-wide border border-gray-600"
+                  >Official</span
+                >
+              </div>
+              <p class="text-gray-500 text-sm font-normal leading-normal group-hover:text-gray-400">
+                Harlem, NY • 12.5mi
+              </p>
+            </div>
+          </div>
+          <input
+            class="custom-radio h-6 w-6 border-2 border-gray-600 bg-transparent text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer"
+            name="gym-selection"
+            type="radio"
+          />
+        </label>
+      </div>
+    </div>
+    <!-- Fixed Bottom Button -->
+    <div
+      class="fixed bottom-0 left-0 right-0 z-20 px-4 pb-8 pt-4 bg-gradient-to-t from-background-dark via-background-dark/95 to-transparent"
+    >
+      <button
+        class="w-full flex items-center justify-center rounded-full h-14 bg-primary text-background-dark text-base font-bold leading-normal tracking-wide shadow-[0_0_20px_rgba(31,231,249,0.3)] hover:shadow-[0_0_30px_rgba(31,231,249,0.5)] active:scale-[0.98] transition-all duration-200"
+      >
+        <span class="material-symbols-outlined mr-2 font-bold">add</span>
+        Create New Gym
+      </button>
+    </div>
+  </body>
+</html>
