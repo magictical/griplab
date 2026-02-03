@@ -12,7 +12,8 @@
 /** profiles.current_tier 제약 (1~6) */
 export type TierLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-const TIER_LEVELS: TierLevel[] = [1, 2, 3, 4, 5, 6];
+/** 티어 레벨 배열 (1~6). 반복·검증용 */
+export const TIER_LEVELS: TierLevel[] = [1, 2, 3, 4, 5, 6];
 
 /** 티어 번호 → 표시 이름 */
 export const TIER_NAMES: Record<TierLevel, string> = {
@@ -47,7 +48,9 @@ export function getTierName(level: number): string | null {
  */
 export function getTierLevel(name: string): number | null {
   const normalized = name.trim();
-  const entry = (Object.entries(TIER_NAMES) as [TierLevel, string][]).find(
+  const entry = (
+    Object.entries(TIER_NAMES) as unknown as [TierLevel, string][]
+  ).find(
     ([, n]) => n.toLowerCase() === normalized.toLowerCase(),
   );
   return entry ? entry[0] : null;

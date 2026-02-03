@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
 import { koKR } from "@clerk/localizations";
+import { ClerkProvider } from "@clerk/nextjs";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SaaS 템플릿",
   description: "Next.js + Clerk + Supabase 보일러플레이트",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 /**
@@ -57,8 +60,8 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider
+      localization={koreanLocalization}
       appearance={{
-        localization: koreanLocalization,
         layout: {
           socialButtonsPlacement: "top",
           socialButtonsVariant: "iconButton",
@@ -71,9 +74,10 @@ export default function RootLayout({
         },
       }}
     >
-      <html lang="ko">
+      <html lang="ko" suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          suppressHydrationWarning
         >
           <SyncUserProvider>
             <Navbar />

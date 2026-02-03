@@ -61,7 +61,7 @@ export function buildRoutinePrompt(context: RoutinePromptContext): string {
 }
 
 /** 재귀적 루틴 블록 스키마 (zod) */
-const routineBlockSchema: z.ZodType<RoutineBlock> = z.lazy(() =>
+const routineBlockSchema = z.lazy(() =>
   z
     .object({
       type: z.string(),
@@ -73,7 +73,7 @@ const routineBlockSchema: z.ZodType<RoutineBlock> = z.lazy(() =>
       reps: z.number().optional(),
     })
     .passthrough(),
-);
+) as z.ZodType<RoutineBlock>;
 
 const routineResponseSchema = z.array(routineBlockSchema);
 

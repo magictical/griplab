@@ -1,7 +1,7 @@
 .
 ├── docs
-│   ├── implementation-plans   # 구현계획서 정리 (규칙: 새 계획은 여기 추가)
-│   │   ├── README.md
+│   ├── implementation-plans   # 구현 계획서 전용 폴더 — 앞으로 모든 계획 문서는 여기 저장·관리
+│   │   ├── README.md          # 계획 문서 저장 규칙 및 목록
 │   │   └── 1.4-common-utils.md
 │   ├── design-refs
 │   ├── troubleshooting

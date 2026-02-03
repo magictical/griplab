@@ -23,10 +23,7 @@ export async function POST(req: NextRequest) {
     const evt = await verifyWebhook(req);
 
     const eventType = evt.type;
-    console.log(`[Webhook] Received event: ${eventType}`, {
-      id: evt.data.id,
-      timestamp: evt.timestamp,
-    });
+    console.log(`[Webhook] Received event: ${eventType}`, { id: evt.data.id });
 
     // 사용자 관련 이벤트 처리
     if (eventType === "user.created" || eventType === "user.updated") {

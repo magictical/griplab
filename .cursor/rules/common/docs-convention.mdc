@@ -1,0 +1,33 @@
+---
+description: 프로젝트 문서 및 구현 계획서 저장·관리 규칙. 계획 문서는 docs 폴더에서 통일 관리한다.
+globs: docs/**/*.md, docs/**/*.mdc, **/implementation-plans/**
+alwaysApply: true
+---
+
+# 문서 관리 조항 (Docs Convention)
+
+- **계획 문서·구현 계획서는 반드시 `docs/implementation-plans/` 폴더에 저장하고 관리한다.**
+- `.cursor/plans/` 또는 프로젝트 외부에 계획 문서를 두지 않고, 프로젝트 내 `docs` 아래에서만 관리한다.
+
+## 구현 계획서 (implementation-plans)
+
+- **저장 위치**: [docs/implementation-plans/](docs/implementation-plans/README.md)
+- **파일명 규칙**: `{섹션번호}-{주제}.md` (예: `1.4-common-utils.md`, `2.1-on-00-safety-consent.md`)
+- **연결**: [TODO.md](docs/TODO.md)의 해당 섹션에서 필요 시 `implementation-plans/` 내 문서를 참조 링크로 걸어 둔다.
+- **새 계획 추가 시**:
+  1. `docs/implementation-plans/{section}-{topic}.md` 파일 생성
+  2. [docs/implementation-plans/README.md](docs/implementation-plans/README.md)의 문서 목록 테이블에 추가
+  3. [docs/TODO.md](docs/TODO.md) 해당 섹션에 "구현 계획: [파일명](implementation-plans/파일명)" 링크 추가
+
+## 문서 폴더 구조 참고
+
+- `docs/` — PRD, TODO, 유저플로우, 디자인 레퍼런스 등
+- `docs/implementation-plans/` — 기능·모듈별 **구현 계획서 전용** (앞으로 모든 계획 문서는 여기 저장·관리)
+- `docs/design-refs/` — UI 디자인 HTML 레퍼런스
+- `docs/troubleshooting/` — 장애 대응·트러블슈팅 문서
+
+## DO / DON'T
+
+- **DO**: 새 구현 계획을 세울 때 `docs/implementation-plans/`에 마크다운 문서로 작성하고, README·TODO에 반영한다.
+- **DO**: 기존 Cursor/외부 계획 파일을 옮길 때 내용을 `docs/implementation-plans/`로 이전하고, 파일명을 `{section}-{topic}.md` 형식으로 통일한다.
+- **DON'T**: 계획 문서를 `.cursor/plans/` 또는 리포지터리 외부에만 두고 관리하지 않는다.
