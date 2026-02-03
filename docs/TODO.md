@@ -25,13 +25,13 @@
 | 카테고리             | 전체    | 완료   | 진행률  |
 | -------------------- | ------- | ------ | ------- |
 | 1. 기본 세팅         | 10      | 4      | 40%     |
-| 2. 온보딩 플로우     | 25      | 12     | 48%     |
+| 2. 온보딩 플로우     | 25      | 15     | 60%     |
 | 3. 메인 대시보드     | 15      | 0      | 0%      |
 | 4. 루틴 빌더         | 20      | 0      | 0%      |
 | 5. 워크아웃 플레이어 | 18      | 0      | 0%      |
 | 6. 설정              | 10      | 0      | 0%      |
 | 7. 게이미피케이션    | 8       | 0      | 0%      |
-| **총계**             | **106** | **16** | **15%** |
+| **총계**             | **106** | **19** | **18%** |
 
 ---
 
@@ -158,23 +158,24 @@
 > **라이브러리**: dnd-kit (드래그 앤 드롭)
 > **구현 계획**: [2.3-on-02-create-gym.md](implementation-plans/2.3-on-02-create-gym.md)
 
-- [ ] `app/onboarding/gym-create/page.tsx` 생성
-  - [ ] 암장 이름 입력
-  - [ ] 색상 추가 버튼 (+)
-  - [ ] 6단계 티어 박스 (Silver~Grandmaster)
-  - [ ] 드래그 앤 드롭 영역
-  - [ ] [저장하기] 버튼
-- [ ] `components/onboarding/GymCreator.tsx`
-  - [ ] 색상 추가/삭제 (ColorPicker)
-  - [ ] dnd-kit 드래그 앤 드롭 구현
-  - [ ] 티어 매핑 시각화
-- [ ] `actions/gyms.ts` 업데이트
-  - [ ] `createGymWithScales(gymData, scales[])` - 암장 + 색상 함께 저장
+- [x] `app/onboarding/gym-create/page.tsx` 생성
+  - [x] 암장 이름 입력
+  - [x] 색상 추가 버튼 (+)
+  - [x] 6단계 티어 박스 (Silver~Grandmaster)
+  - [x] 드래그 앤 드롭 영역
+  - [x] [저장하기] 버튼
+- [x] `components/onboarding/GymCreator.tsx`
+  - [x] 색상 추가/삭제 (ColorPicker)
+  - [x] dnd-kit 드래그 앤 드롭 구현
+  - [x] 티어 매핑 시각화
+- [x] `actions/gyms.ts` 업데이트
+  - [x] `createGymWithScales(gymData, scales[])` - 암장 + 색상 함께 저장
 
 ### 2.4 ON-03: 티어 배정 (Tier Assignment) `MVP`
 
 > **PRD 참조**: 3.1 [Step 2] 티어 배정
 > **DB 필드**: profiles.current_tier (1~6)
+> **구현 계획**: [2.4-on-03-tier-assign.md](implementation-plans/2.4-on-03-tier-assign.md)
 
 | 티어        | 색상 범위 | 값  |
 | ----------- | --------- | --- |
@@ -185,17 +186,17 @@
 | Master      | 회색      | 5   |
 | Grandmaster | 검정      | 6   |
 
-- [ ] `app/onboarding/tier-assign/page.tsx` 생성
-  - [ ] 색상 그리드 (sort_order 기준 정렬)
-  - [ ] 안내 문구: "한 세션에 50% 이상 완등 가능한 난이도"
-  - [ ] 티어 뱃지 즉시 표시 (Bounce/Fade-in)
-  - [ ] [다음] 버튼
-- [ ] `components/onboarding/ColorGrid.tsx`
-  - [ ] 선택한 홈짐의 색상 버튼 표시
-  - [ ] 선택 상태 하이라이트
-- [ ] `components/common/TierBadge.tsx`
-  - [ ] 6단계 뱃지 디자인
-  - [ ] 애니메이션 효과
+- [x] `app/onboarding/tier-assign/page.tsx` 생성
+  - [x] 색상 그리드 (sort_order 기준 정렬)
+  - [x] 안내 문구: "한 세션에 50% 이상 완등 가능한 난이도"
+  - [x] 티어 뱃지 즉시 표시 (Bounce/Fade-in)
+  - [x] [다음] 버튼
+- [x] `components/onboarding/ColorGrid.tsx`
+  - [x] 선택한 홈짐의 색상 버튼 표시
+  - [x] 선택 상태 하이라이트
+- [x] `components/common/TierBadge.tsx`
+  - [x] 6단계 뱃지 디자인
+  - [x] 애니메이션 효과
 
 ### 2.5 ON-04: 수행 능력 측정 (Assessment) `MVP`
 

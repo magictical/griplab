@@ -2,6 +2,8 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { getServiceRoleClient } from "@/lib/supabase/service-role";
+import { LOGIN_REQUIRED_MESSAGE } from "@/constants/auth";
+import type { TierLevel } from "@/lib/utils/tier";
 
 /**
  * 현재 로그인 사용자의 홈짐을 설정합니다.
@@ -12,7 +14,7 @@ export async function setHomeGym(gymId: string | null): Promise<{ error: string 
   try {
     const { userId } = await auth();
     if (!userId) {
-      return { error: "로그인이 필요합니다." };
+      return { error: LOGIN_REQUIRED_MESSAGE };
     }
 
     const supabase = getServiceRoleClient();
@@ -28,6 +30,64 @@ export async function setHomeGym(gymId: string | null): Promise<{ error: string 
     return { error: null };
   } catch (e) {
     const message = e instanceof Error ? e.message : "setHomeGym failed";
+    return { error: message };
+  }
+}
+
+/**
+ * 현재 로그인 사용자의 홈짐 ID를 반환합니다.
+ * 티어 배정 페이지에서 scales 조회 전 홈짐 존재 여부 확인용.
+ */
+export async function getCurrentUserHomeGym(): Promise<{
+  home_gym_id: string | null;
+  error: string | null;
+}> {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return { home_gym_id: null, error: LOGIN_REQUIRED_MESSAGE };
+    }
+
+    const supabase = getServiceRoleClient();
+    const { data, error } = await supabase
+      .from("users")
+      .select("home_gym_id")
+      .eq("clerk_id", userId)
+      .maybeSingle();
+
+    if (error) {
+      return { home_gym_id: null, error: error.message };
+    }
+    return { home_gym_id: data?.home_gym_id ?? null, error: null };
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "getCurrentUserHomeGym failed";
+    return { home_gym_id: null, error: message };
+  }
+}
+
+/**
+ * 현재 로그인 사용자의 티어(1~6)를 설정합니다.
+ * Clerk users 테이블의 current_tier를 업데이트합니다.
+ */
+export async function setCurrentTier(tier: TierLevel): Promise<{ error: string | null }> {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return { error: LOGIN_REQUIRED_MESSAGE };
+    }
+
+    const supabase = getServiceRoleClient();
+    const { error } = await supabase
+      .from("users")
+      .update({ current_tier: tier })
+      .eq("clerk_id", userId);
+
+    if (error) {
+      return { error: error.message };
+    }
+    return { error: null };
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "setCurrentTier failed";
     return { error: message };
   }
 }

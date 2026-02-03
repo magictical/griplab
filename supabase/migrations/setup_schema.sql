@@ -46,6 +46,16 @@ create table public.gyms (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+-- [Table: users] Clerk 동기화용 (웹훅 / sync-user). 홈짐·티어는 온보딩에서 저장.
+create table if not exists public.users (
+  id uuid default uuid_generate_v4() primary key,
+  clerk_id text not null unique,
+  name text,
+  home_gym_id uuid references public.gyms(id) on delete set null, -- ON-01 홈짐 선택
+  current_tier int check (current_tier between 1 and 6),           -- ON-03 티어 배정 (1~6)
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
 -- [Table: gym_grade_scales] 난이도 색상표
 create table public.gym_grade_scales (
   id uuid default uuid_generate_v4() primary key,
