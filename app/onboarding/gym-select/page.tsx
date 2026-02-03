@@ -9,10 +9,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 import { Search, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { GymSearchList } from "@/components/onboarding/GymSearchList";
+import { LoginRequiredModal, LOGIN_REQUIRED_MESSAGE } from "@/components/login-required-modal";
 import { getGyms } from "@/actions/gyms";
 import { setHomeGym } from "@/actions/profiles";
 import type { Gym } from "@/types/database";
@@ -21,6 +23,7 @@ type FilterType = "all" | "official" | "community";
 
 export default function GymSelectPage() {
   const router = useRouter();
+  const { isLoaded, userId } = useAuth();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<FilterType>("all");
   const [gyms, setGyms] = useState<Gym[]>([]);
@@ -28,6 +31,7 @@ export default function GymSelectPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const fetchGyms = useCallback(async (searchTerm?: string) => {
     setLoading(true);
@@ -66,11 +70,20 @@ export default function GymSelectPage() {
 
   async function handleConfirm() {
     if (!selectedId || submitting) return;
+    if (isLoaded && !userId) {
+      setShowLoginModal(true);
+      return;
+    }
     setSubmitting(true);
     const { error: err } = await setHomeGym(selectedId);
     setSubmitting(false);
     if (err) {
-      setError(err);
+      if (err === LOGIN_REQUIRED_MESSAGE) {
+        setShowLoginModal(true);
+        setError(null);
+      } else {
+        setError(err);
+      }
       return;
     }
     router.push("/onboarding/tier-assign");
@@ -155,6 +168,12 @@ export default function GymSelectPage() {
           </Button>
         </div>
       </div>
+
+      <LoginRequiredModal
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
+        description="홈짐을 저장하려면 로그인이 필요합니다. 로그인 후 다시 시도해 주세요."
+      />
     </div>
   );
 }

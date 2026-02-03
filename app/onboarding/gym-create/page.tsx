@@ -9,19 +9,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Save } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
+import { ArrowLeft, Loader2, Pencil, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { GymCreator } from "@/components/onboarding/GymCreator";
+import { LoginRequiredModal, LOGIN_REQUIRED_MESSAGE } from "@/components/login-required-modal";
 import { createGymWithScales, type GymScaleInput } from "@/actions/gyms";
 import { setHomeGym } from "@/actions/profiles";
 
 export default function GymCreatePage() {
   const router = useRouter();
+  const { isLoaded, userId } = useAuth();
   const [name, setName] = useState("");
   const [scales, setScales] = useState<GymScaleInput[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const canSubmit =
     name.trim().length > 0 &&
@@ -31,6 +35,10 @@ export default function GymCreatePage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!canSubmit) return;
+    if (isLoaded && !userId) {
+      setShowLoginModal(true);
+      return;
+    }
     setError(null);
     setSubmitting(true);
     const { data, error: err } = await createGymWithScales(
@@ -39,7 +47,12 @@ export default function GymCreatePage() {
     );
     setSubmitting(false);
     if (err) {
-      setError(err);
+      if (err === LOGIN_REQUIRED_MESSAGE) {
+        setShowLoginModal(true);
+        setError(null);
+      } else {
+        setError(err);
+      }
       return;
     }
     if (!data?.id) {
@@ -48,7 +61,12 @@ export default function GymCreatePage() {
     }
     const setHomeResult = await setHomeGym(data.id);
     if (setHomeResult.error) {
-      setError(setHomeResult.error);
+      if (setHomeResult.error === LOGIN_REQUIRED_MESSAGE) {
+        setShowLoginModal(true);
+        setError(null);
+      } else {
+        setError(setHomeResult.error);
+      }
       return;
     }
     router.push("/onboarding/tier-assign");
@@ -71,7 +89,11 @@ export default function GymCreatePage() {
         <div className="w-10" aria-hidden />
       </header>
 
-      <form onSubmit={handleSubmit} className="flex-1 flex flex-col px-4 pb-28">
+      <form
+        onSubmit={handleSubmit}
+        className="flex-1 flex flex-col px-4 pb-28"
+        aria-label="커스텀 암장 등록"
+      >
         {/* 암장 이름 */}
         <div className="mt-2 space-y-2">
           <label
@@ -80,14 +102,19 @@ export default function GymCreatePage() {
           >
             암장 이름
           </label>
-          <input
-            id="gym-name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="암장 이름을 입력하세요"
-            className="block w-full rounded-xl border border-[#2a4043] py-4 pl-4 pr-10 text-white bg-[#162a2d] placeholder:text-gray-500 focus:ring-2 focus:ring-[#1fe7f9] focus:border-[#1fe7f9] transition-all"
-          />
+          <div className="relative">
+            <input
+              id="gym-name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="암장 이름을 입력하세요"
+              className="block w-full rounded-xl border border-[#2a4043] py-4 pl-4 pr-10 text-white bg-[#162a2d] placeholder:text-gray-500 focus:ring-2 focus:ring-[#1fe7f9] focus:border-[#1fe7f9] transition-all"
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500" aria-hidden>
+              <Pencil className="h-5 w-5" />
+            </div>
+          </div>
         </div>
 
         {/* GymCreator: 색상 + 티어 매핑 */}
@@ -96,7 +123,7 @@ export default function GymCreatePage() {
         </div>
 
         {error && (
-          <p className="mt-4 text-sm text-red-400" role="alert">
+          <p id="gym-create-error" className="mt-4 text-sm text-red-400" role="alert">
             {error}
           </p>
         )}
@@ -106,13 +133,25 @@ export default function GymCreatePage() {
           <Button
             type="submit"
             disabled={!canSubmit}
+            aria-busy={submitting}
+            aria-describedby={error ? "gym-create-error" : undefined}
             className="w-full flex items-center justify-center gap-2 bg-[#1fe7f9] hover:bg-[#1fe7f9]/90 text-[#0f2123] font-bold py-4 px-6 rounded-xl shadow-[0_0_20px_-5px_rgba(31,231,249,0.5)] disabled:opacity-50 disabled:pointer-events-none"
           >
-            <Save className="h-5 w-5" />
-            <span className="text-lg">저장하기</span>
+            {submitting ? (
+              <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+            ) : (
+              <Save className="h-5 w-5" />
+            )}
+            <span className="text-lg">{submitting ? "저장 중…" : "저장하기"}</span>
           </Button>
         </div>
       </form>
+
+      <LoginRequiredModal
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
+        description="암장을 등록하려면 로그인이 필요합니다. 로그인 후 다시 시도해 주세요."
+      />
     </div>
   );
 }

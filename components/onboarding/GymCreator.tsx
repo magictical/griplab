@@ -172,10 +172,48 @@ function TierDropZone({
   );
 }
 
+/** 서버/클라이언트 불일치 방지: DndContext·crypto.randomUUID()는 클라이언트 마운트 후에만 사용 */
+function GymCreatorSkeleton() {
+  return (
+    <div className="space-y-4">
+      <div className="space-y-3">
+        <div className="flex justify-between items-center px-1">
+          <h3 className="text-sm font-medium text-[#9bbbbb]">색상 생성</h3>
+          <p className="text-xs text-[#5c7777]">드래그하여 티어에 매핑하세요</p>
+        </div>
+        <div className="flex items-center gap-3 overflow-x-auto py-2 px-1">
+          <div className="shrink-0 w-14 h-14 rounded-full border-2 border-dashed border-[#3a5555] bg-[#111818]/50" />
+          <div className="shrink-0 w-14 h-14 rounded-full bg-[#2a4043] animate-pulse" />
+          <div className="shrink-0 w-14 h-14 rounded-full bg-[#2a4043] animate-pulse" />
+        </div>
+      </div>
+      <div className="h-px bg-[#2A3F3F]" />
+      <div className="flex flex-col space-y-3">
+        {(TIER_LEVELS as TierLevel[]).map((tier) => (
+          <div
+            key={tier}
+            className="flex items-center justify-between gap-3 p-3 rounded-xl bg-[#162a2d] border border-[#2A3F3F]"
+          >
+            <div className="flex items-center gap-4 shrink-0">
+              <div className="w-12 h-12 rounded-lg bg-[#111818]" />
+              <div className="flex flex-col gap-1">
+                <span className="text-base font-bold text-white h-4 w-20 bg-[#2a4043] rounded" />
+                <span className="text-xs text-gray-400 h-3 w-14 bg-[#2a4043]/50 rounded" />
+              </div>
+            </div>
+            <div className="w-12 h-12 rounded-full border-2 border-dashed border-[#3a5555] bg-[#111818]/50" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function GymCreator({ onChange }: GymCreatorProps) {
+  const [mounted, setMounted] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [addColorForTier, setAddColorForTier] = useState<TierLevel | null>(null);
-  const [colors, setColors] = useState<ColorItem[]>(getInitialColors);
+  const [colors, setColors] = useState<ColorItem[]>([]);
   const [tierAssignments, setTierAssignments] = useState<
     Record<TierLevel, AssignedColor[]>
   >({
@@ -187,6 +225,11 @@ export function GymCreator({ onChange }: GymCreatorProps) {
     6: [],
   });
   const [addColorHex, setAddColorHex] = useState(DEFAULT_HEX);
+
+  useEffect(() => {
+    setMounted(true);
+    setColors(getInitialColors());
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -290,6 +333,10 @@ export function GymCreator({ onChange }: GymCreatorProps) {
   }, [tierAssignments, colors, onChange]);
 
   const activeColor = activeId ? colors.find((c) => c.id === activeId) : null;
+
+  if (!mounted) {
+    return <GymCreatorSkeleton />;
+  }
 
   return (
     <DndContext

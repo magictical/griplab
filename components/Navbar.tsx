@@ -17,7 +17,11 @@ const Navbar = () => {
       </Link>
       <div className="flex gap-4 items-center">
         <SignedOut>
-          <SignInButton mode="modal">
+          <SignInButton
+            mode="modal"
+            fallbackRedirectUrl={pathname || "/"}
+            oauthFlow="popup"
+          >
             <Button>로그인</Button>
           </SignInButton>
         </SignedOut>

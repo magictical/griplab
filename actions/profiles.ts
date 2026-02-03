@@ -91,3 +91,79 @@ export async function setCurrentTier(tier: TierLevel): Promise<{ error: string |
     return { error: message };
   }
 }
+
+/**
+ * 현재 로그인 사용자의 티어를 반환합니다.
+ * assessment 페이지 진입 시 티어 배정 완료 여부 확인용.
+ */
+export async function getCurrentUserTier(): Promise<{
+  current_tier: number | null;
+  error: string | null;
+}> {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return { current_tier: null, error: LOGIN_REQUIRED_MESSAGE };
+    }
+
+    const supabase = getServiceRoleClient();
+    const { data, error } = await supabase
+      .from("users")
+      .select("current_tier")
+      .eq("clerk_id", userId)
+      .maybeSingle();
+
+    if (error) {
+      return { current_tier: null, error: error.message };
+    }
+    const tier = data?.current_tier ?? null;
+    return { current_tier: tier != null && tier >= 1 && tier <= 6 ? tier : null, error: null };
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "getCurrentUserTier failed";
+    return { current_tier: null, error: message };
+  }
+}
+
+/** Assessment 저장 payload (ON-04 수행 능력 측정) */
+export type AssessmentUpdatePayload = {
+  weight_kg?: number | null;
+  max_hang_1rm?: number | null;
+  no_hang_lift_1rm?: number | null;
+};
+
+/**
+ * 현재 로그인 사용자의 수행 능력 측정값을 저장합니다.
+ * users 테이블의 weight_kg, max_hang_1rm, no_hang_lift_1rm 업데이트.
+ */
+export async function updateAssessment(
+  data: AssessmentUpdatePayload
+): Promise<{ error: string | null }> {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return { error: LOGIN_REQUIRED_MESSAGE };
+    }
+
+    const payload: Record<string, number | null> = {};
+    if (data.weight_kg !== undefined) payload.weight_kg = data.weight_kg ?? null;
+    if (data.max_hang_1rm !== undefined) payload.max_hang_1rm = data.max_hang_1rm ?? null;
+    if (data.no_hang_lift_1rm !== undefined) payload.no_hang_lift_1rm = data.no_hang_lift_1rm ?? null;
+    if (Object.keys(payload).length === 0) {
+      return { error: null };
+    }
+
+    const supabase = getServiceRoleClient();
+    const { error } = await supabase
+      .from("users")
+      .update(payload)
+      .eq("clerk_id", userId);
+
+    if (error) {
+      return { error: error.message };
+    }
+    return { error: null };
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "updateAssessment failed";
+    return { error: message };
+  }
+}

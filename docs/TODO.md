@@ -201,24 +201,27 @@
 ### 2.5 ON-04: 수행 능력 측정 (Assessment) `MVP`
 
 > **PRD 참조**: 3.1 [Step 3] 수행 능력 측정
-> **DB 필드**: profiles.max_hang_1rm, profiles.no_hang_lift_1rm
+> **DB 필드**: users.weight_kg, users.max_hang_1rm, users.no_hang_lift_1rm (마이그레이션 추가)
+> **구현 계획**: [2.5-on-04-assessment.md](implementation-plans/2.5-on-04-assessment.md)
 
-- [ ] `app/onboarding/assessment/page.tsx` 생성
-  - [ ] Phase 1: "1RM 수치를 이미 알고 있나요?"
-    - [ ] Yes → 직접 입력 폼
-    - [ ] No → Phase 2 이동
-  - [ ] Phase 2: 장비 선택 카드
-    - [ ] 행보드 이미지 (Max Hang 측정)
-    - [ ] 로딩핀/블럭 이미지 (Lift 측정)
-    - [ ] 없음/모름 (체중 기반 추정)
-  - [ ] Phase 3: 측정 루틴 실행 (플레이어 연동)
-  - [ ] 두 종목 측정 시 5분 강제 휴식 타이머
-- [ ] `components/onboarding/AssessmentForm.tsx`
-  - [ ] 탭/단계 전환 UI
-  - [ ] 숫자 입력 검증
-  - [ ] 장비 선택 카드 UI
-- [ ] `actions/profiles.ts` Server Actions
-  - [ ] `updateProfile(data)` - 프로필 업데이트
+- [x] `app/onboarding/assessment/page.tsx` 생성
+  - [x] Phase 1: "1RM 수치를 이미 알고 있나요?"
+    - [x] Yes → 직접 입력 폼
+    - [x] No → Phase 2 이동
+  - [x] Phase 2: 장비 선택 카드
+    - [x] 행보드 (Max Hang 입력)
+    - [x] 로딩핀/블럭 (Lift 입력)
+    - [x] 없음/모름 (체중만 입력)
+  - [x] Phase 3: 직접 입력 / 장비별 단일 입력 / 체중만 입력 → 저장 후 메인 홈
+  - [ ] (선택) 두 종목 측정 시 5분 강제 휴식 타이머
+- [x] `components/onboarding/AssessmentForm.tsx`
+  - [x] 단계 전환 UI (Phase 1 → 2 → 3)
+  - [x] 숫자 입력 검증 (react-hook-form + zod, 0.1~500 kg / 체중 20~300 kg)
+  - [x] 장비 선택 카드 UI
+- [x] `actions/profiles.ts` Server Actions
+  - [x] `updateAssessment(data)` — users 테이블 측정값 업데이트
+  - [x] `getCurrentUserTier()` — assessment 진입 조건 확인용
+- [x] 마이그레이션 `20250203140000_add_users_assessment_columns.sql` — users에 weight_kg, max_hang_1rm, no_hang_lift_1rm 추가
 
 ---
 
