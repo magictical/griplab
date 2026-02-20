@@ -43,11 +43,13 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* GripLab theme (design-refs 06_home_guest.html) */
+/* GripLab theme (design-refs 06_home_guest.html, 10_routine_editor.html) */
 :root {
   --griplab-primary: #1fe7f9;
+  --griplab-primary-solid: #06e0ce;
   --griplab-background-dark: #0f2123;
   --griplab-card-dark: #162a2d;
+  --griplab-accent-green: #00e676;
 }
 
 :root {
