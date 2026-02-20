@@ -3,6 +3,8 @@ export type BlockType = "exercise" | "rest" | "loop";
 export interface BaseBlock {
   id: string;
   type: BlockType;
+  color?: string;
+  title?: string;
 }
 
 export interface ExerciseBlock extends BaseBlock {

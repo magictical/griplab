@@ -271,6 +271,17 @@
   - [x] `getHomeMetrics()` - 홈 요약 메트릭
   - [x] `getTrainingStats(period)` - 통계 조회 (MVP는 빈 데이터)
 
+### 3.2.1 HM-03: 메인 홈 루틴 퀵 액션 `MVP`
+
+> **원인 분석**: 홈 화면에서 루틴빌더 / 내 루틴 리스트로 바로가는 화면 내 메뉴가 없음 (단순 FAB 외에 명시적인 컨텐츠 메뉴 필요).
+
+- [x] `components/home/HomeRoutineActions.tsx` (신규 컴포넌트)
+  - [x] StreakWidget 하단에 가로(수평) 또는 카드 형태의 UI 렌더링
+  - [x] 버튼 1: [최근 루틴 / 내 루틴 보기] -> `/routines` 로 이동
+  - [x] 버튼 2: [새 루틴 만들기 / 빌더 선택] -> `/routine-builder` 로 이동
+- [x] `app/page.tsx` 연동
+  - [x] Regular User 분기 화면(StreakWidget 아래)에 컴포넌트 추가 배치
+
 ---
 
 ## 4. 루틴 빌더 (Routine Builder) `MVP`
@@ -317,46 +328,46 @@
 > **PRD 참조**: 3.2 B. Custom Builder
 > **DB 필드**: routines.structure_json (중첩 블록 지원)
 
-- [ ] `app/routine-builder/editor/page.tsx` 생성
-  - [ ] 헤더: 뒤로가기, 루틴 이름, [저장] 버튼
-  - [ ] 블록 리스트 (메인 영역)
-  - [ ] 하단 고정 패널 (통계 + 추가 버튼)
-- [ ] `components/routine-builder/BlockList.tsx`
-  - [ ] 블록 렌더링 (dnd-kit)
-  - [ ] 드래그 앤 드롭 핸들
-- [ ] `components/routine-builder/BlockItem.tsx`
-  - [ ] 단일 블록 (운동/휴식)
-  - [ ] 그룹 블록 (Nested Loop)
-  - [ ] 컬러 바 (운동-파랑, 휴식-초록)
-  - [ ] 삭제(X) 버튼
-- [ ] `components/routine-builder/EditorFooter.tsx`
-  - [ ] 통계 그리드: 운동 수, 세트, TUT, 소요시간
-  - [ ] 추가 버튼: [+ 운동], [+ 세트], [+ 휴식]
-  - [ ] Visual Timeline
-  - [ ] [루틴 생성 완료] 버튼
-- [ ] `components/routine-builder/VisualTimeline.tsx`
-  - [ ] 루틴 흐름 시각화
-  - [ ] 강도 막대그래프
+- [x] `app/routine-builder/editor/page.tsx` 생성
+  - [x] 헤더: 뒤로가기, 루틴 이름, [저장] 버튼
+  - [x] 블록 리스트 (메인 영역)
+  - [x] 하단 고정 패널 (통계 + 추가 버튼)
+- [x] `components/routine-builder/BlockList.tsx`
+  - [x] 블록 렌더링 (dnd-kit)
+  - [x] 드래그 앤 드롭 핸들
+- [x] `components/routine-builder/BlockItem.tsx`
+  - [x] 단일 블록 (운동/휴식)
+  - [x] 그룹 블록 (Nested Loop)
+  - [x] 컬러 바 (운동-파랑, 휴식-초록)
+  - [x] 삭제(X) 버튼
+- [x] `components/routine-builder/EditorFooter.tsx`
+  - [x] 통계 그리드: 운동 수, 세트, TUT, 소요시간
+  - [x] 추가 버튼: [+ 운동], [+ 세트], [+ 휴식]
+  - [x] Visual Timeline
+  - [x] [루틴 생성 완료] 버튼
+- [x] `components/routine-builder/VisualTimeline.tsx` (EditorFooter 통합)
+  - [x] 루틴 흐름 시각화
+  - [x] 강도 막대그래프
 
 ### 4.4 RB-04: 운동 선택 모달
 
-- [ ] `components/routine-builder/ExercisePicker.tsx`
-  - [ ] 검색창
-  - [ ] 카테고리 탭: 행보드 / 리프트 / 턱걸이 / 코어
-  - [ ] 클릭 시 블록 추가
-- [ ] `lib/data/exercises.ts`
-  - [ ] 운동 데이터베이스 (JSON)
-  - [ ] 카테고리별 분류
+- [x] `components/routine-builder/ExercisePicker.tsx`
+  - [x] 검색창
+  - [x] 카테고리 탭: 행보드 / 리프트 / 턱걸이 / 코어
+  - [x] 클릭 시 블록 추가
+- [x] `lib/data/exercises.ts`
+  - [x] 운동 데이터베이스 (JSON)
+  - [x] 카테고리별 분류
 
 ### 4.5 루틴 API/Actions
 
-- [ ] `actions/routines.ts` Server Actions
-  - [ ] `getRoutines(userId)` - 루틴 목록
-  - [ ] `getRoutine(routineId)` - 루틴 상세
-  - [ ] `createRoutine(data)` - 루틴 생성
-  - [ ] `updateRoutine(routineId, data)` - 루틴 수정
-  - [ ] `deleteRoutine(routineId)` - 루틴 삭제
-  - [ ] `duplicateRoutine(routineId)` - 루틴 복제
+- [x] `actions/routines.ts` Server Actions
+  - [x] `getRoutines(userId)` - 루틴 목록
+  - [x] `getRoutine(routineId)` - 루틴 상세
+  - [x] `createRoutine(data)` - 루틴 생성
+  - [x] `updateRoutine(routineId, data)` - 루틴 수정
+  - [x] `deleteRoutine(routineId)` - 루틴 삭제
+  - [x] `duplicateRoutine(routineId)` - 루틴 복제
 
 ---
 
@@ -369,45 +380,79 @@
 
 > **PRD 참조**: 3.3 듀얼 모드 플레이어
 
-- [ ] `app/workout/[routineId]/page.tsx` 생성
-  - [ ] 모드 선택 모달
-  - [ ] [⏱️ 타이머 모드] (Auto)
-  - [ ] [📝 로거 모드] (Manual)
-- [ ] `components/workout/ModeSelectModal.tsx`
-  - [ ] 모드 선택 버튼 UI
+- [x] `app/workout/[routineId]/page.tsx` 생성
+  - [x] 모드 선택 모달
+  - [x] [⏱️ 타이머 모드] (Auto)
+  - [x] [📝 로거 모드] (Manual)
+- [x] `components/workout/ModeSelectModal.tsx`
+  - [x] 모드 선택 버튼 UI
+
+### 5.1.1 PL-01-A: 내 루틴 목록 페이지 (My Routines) `MVP`
+
+> **원인 분석**: 유저플로우와 PRD 상에서 루틴 "생성"은 명시되어 있으나 생성된 커스텀 루틴들을 모아보고 훈련을 시작할 수 있는 "저장된 루틴 목록" 페이지에 대한 명확한 UI 플랜이 누락되어 있음. 플레이어 진입(PL-01) 전 단계로 필수적으로 요구됨.
+
+- [x] `app/routines/page.tsx` 또는 `app/routine-builder/page.tsx` 확장
+  - [x] 저장된 내 루틴 리스트 조회 (서버 액션 `getRoutines` 연동)
+  - [x] 빈 상태(Empty State) 디자인: 루틴이 없을 때 "새 루틴 만들기" 유도
+- [x] `components/routine-builder/RoutineList.tsx`
+  - [x] 루틴 카드형 UI 렌더링 (루틴명, 소요시간, 세트수 표시)
+  - [x] [▶️ 훈련 시작] 버튼 -> `/workout/[routineId]` 로 이동
+  - [x] [새 루틴 만들기] 버튼 -> `/routine-builder/editor` 로 이동
+
+### 5.1.2 PL-01-B: 홈 화면 루틴 진입 메뉴 (Routine Entry Menu) `MVP`
+
+> **원인 분석**: 홈 화면에서 "내 루틴 목록"과 "새 루틴 만들기(AI/커스텀)"로 분기하여 이동할 수 있는 직관적인 진입점이 필요함.
+
+- [x] `components/home/RoutineEntryMenu.tsx` (바텀 시트 모달)
+  - [x] 메뉴 1: 내 루틴 목록 보기 (`/routines`)
+  - [x] 메뉴 2: 새 루틴 만들기 (`/routine-builder`)
+- [x] `components/home/RoutineFAB.tsx` 수정
+  - [x] 기존 직접 이동 링크 대신 `RoutineEntryMenu` 모달 트리거로 변경
+
+### 5.1.3 PL-01-C: 루틴 요약 화면 구조 시각화 (Routine Structure Preview) `MVP`
+
+> **원인 분석**: 훈련 시작 전 요약 페이지(`/workout/[routineId]`)에서 예상 소요시간과 총 세트 수만 명시되고 있어, 어떤 운동들로 구성된 루틴인지 구체적인 컨텍스트를 파악하기 어려움. 플레이어 진입 전에 루틴의 세부 블록을 나열해주는 리스트(또는 타임라인) UI 추가가 필요.
+
+- [x] `components/workout/RoutinePreviewList.tsx` 컴포넌트 생성
+  - [x] 루틴 블록(`routine.structure_json`) 파싱 및 렌더링
+  - [x] 그룹(Loop) 블록 및 개별 운동 블록(Exercise)을 계층적 혹은 평탄화된 목록형태로 가시화
+  - [x] 휴식(Rest) 블록은 간단히 아이콘/시간으로 표시
+- [x] `app/workout/[routineId]/WorkoutStartClient.tsx` 화면 확장
+  - [x] 기존 Stats Grid 밑에 전체 루틴 구조를 미리볼 수 있는 `RoutinePreviewList` 컴포넌트 마운트
+  - [x] 훈련 시작하기 버튼은 리스트 하단에 위치하도록 레이아웃 유지
 
 ### 5.2 PL-02: 타이머 모드 (Auto) `MVP`
 
 > **PRD 참조**: 3.3 A. 타이머 모드
 > **피드백 사운드**: Start("삐-"), End("삐-삐-"), Rest End("톡...톡...")
 
-- [ ] `app/workout/[routineId]/timer/page.tsx` 생성
-  - [ ] 5초 Ready 카운트다운
-  - [ ] 메인 타이머 (분:초)
-  - [ ] 원형 프로그레스 바
-  - [ ] 세트 정보 (무게/엣지/그립)
-  - [ ] 컨트롤: [일시정지], [휴식 스킵], [중단]
-- [ ] `components/workout/TimerPlayer.tsx`
-  - [ ] 타이머 UI
-  - [ ] 프로그레스 애니메이션
-- [ ] `hooks/useWorkoutTimer.ts`
-  - [ ] 타이머 로직
-  - [ ] 세트 진행 관리
-  - [ ] 오디오 피드백
-- [ ] `lib/audio/sounds.ts`
-  - [ ] 비프음 재생 함수
+- [x] `app/workout/[routineId]/timer/page.tsx` 생성
+  - [x] 5초 Ready 카운트다운
+  - [x] 메인 타이머 (분:초)
+  - [x] 원형 프로그레스 바
+  - [x] 세트 정보 (무게/엣지/그립)
+  - [x] 컨트롤: [일시정지], [휴식 스킵], [중단]
+- [x] `components/workout/TimerPlayer.tsx`
+  - [x] 타이머 UI
+  - [x] 프로그레스 애니메이션
+- [x] `hooks/useWorkoutTimer.ts`
+  - [x] 타이머 로직
+  - [x] 세트 진행 관리
+  - [x] 오디오 피드백
+- [x] `lib/audio/sounds.ts`
+  - [x] 비프음 재생 함수
 
 ### 5.3 PL-03: 로거 모드 (Manual) `MVP`
 
 > **PRD 참조**: 3.3 B. 로거 모드
 
-- [ ] `app/workout/[routineId]/logger/page.tsx` 생성
-  - [ ] 세트 리스트 (현재 세트 강조)
-  - [ ] 상태 버튼: ✅ 성공 / ⚠️ 절반 / ❌ 실패
-  - [ ] 우상단 [중단] 버튼
-- [ ] `components/workout/LoggerPlayer.tsx`
-  - [ ] 세트 리스트 UI
-  - [ ] 상태 버튼 처리
+- [x] `app/workout/[routineId]/logger/page.tsx` 생성
+  - [x] 세트 리스트 (현재 세트 강조)
+  - [x] 상태 버튼: ✅ 성공 / ⚠️ 절반 / ❌ 실패
+  - [x] 우상단 [중단] 버튼
+- [x] `components/workout/LoggerPlayer.tsx`
+  - [x] 세트 리스트 UI
+  - [x] 상태 버튼 처리
 
 ### 5.4 PL-04: 세션 종료 `MVP`
 

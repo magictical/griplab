@@ -143,6 +143,8 @@ Visuals: 티어 뱃지 위치에 ? 표시, 그래프 영역에 Sample Data 및 �
 
 Visuals: 현재 티어(Silver~GM) 뱃지, Streak(연속 운동) 불꽃 아이콘, 그래프 표시.
 
+Quick Actions: 홈 화면에서 훈련 흐름으로 자연스럽게 이어지도록 Streak 위젯/그래프 영역 하단에 [최근 루틴(내 루틴 목록)] 및 [새 루틴 설계(빌더)] 퀵 액션 요소 배치.
+
 3.5 설정 (Settings)
 Profile: 신체 정보(체중) 수정, 홈짐 및 티어 재설정.
 

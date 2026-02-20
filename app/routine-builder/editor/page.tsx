@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Layers, Upload } from "lucide-react";
-import { RoutineEditorProvider } from "@/components/routine-builder/editor/RoutineEditorContext";
 import { BlockListRoot } from "@/components/routine-builder/editor/BlockList";
 import { EditorFooter } from "@/components/routine-builder/editor/EditorFooter";
+import { RoutineEditorProvider } from "@/components/routine-builder/editor/RoutineEditorContext";
+import { ArrowLeft, Layers, Save, Upload } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 function EditorContent() {
   const router = useRouter();
   const [boardType, setBoardType] = useState<"hangboard" | "lift">("hangboard");
+  const [routineName, setRoutineName] = useState("나의 루틴");
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0d1414] text-white font-sans antialiased pb-[400px]">
@@ -47,7 +48,8 @@ function EditorContent() {
             className="w-full bg-[#1d2626] border-white/5 border rounded-xl px-4 py-4 text-gray-100 placeholder:text-gray-500 focus:ring-1 focus:ring-[#06e0ce] focus:border-[#06e0ce] transition-all outline-none shadow-sm"
             placeholder="새 트레이닝 루틴 이름을 입력하세요"
             type="text"
-            defaultValue="나의 루틴"
+            value={routineName}
+            onChange={(e) => setRoutineName(e.target.value)}
           />
         </div>
 
@@ -88,7 +90,7 @@ function EditorContent() {
       </main>
 
       {/* Footer (Fixed) */}
-      <EditorFooter />
+      <EditorFooter routineName={routineName} />
     </div>
   );
 }

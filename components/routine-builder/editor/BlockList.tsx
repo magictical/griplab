@@ -1,24 +1,25 @@
 "use client";
 
+import type { LoopBlock, RoutineBlock } from "@/types/routine";
 import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-  useDroppable,
+    closestCenter,
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    TouchSensor,
+    useDroppable,
+    useSensor,
+    useSensors,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useRoutineEditor } from "./RoutineEditorContext";
 import { BlockItem } from "./BlockItem";
-import type { RoutineBlock, LoopBlock } from "@/types/routine";
+import { useRoutineEditor } from "./RoutineEditorContext";
 
 const DROP_LOOP_PREFIX = "drop-loop-";
 
@@ -57,12 +58,52 @@ function cn(...args: (string | boolean | undefined)[]) {
   return args.filter(Boolean).join(" ");
 }
 
+function RootDropZone({ children, isEmpty }: { children: React.ReactNode; isEmpty: boolean }) {
+  const { setNodeRef, isOver } = useDroppable({
+    id: "drop-root",
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={cn(
+        "space-y-3 pb-40 h-full min-h-[50vh] transition-colors rounded-xl flex flex-col",
+        isOver && "bg-white/[0.02]"
+      )}
+    >
+      {children}
+
+      {/* Invisible drop target that always exists at the bottom */}
+      <div
+        className={cn(
+          "flex-1 min-h-[100px] border-2 border-dashed rounded-xl transition-all duration-300 flex items-center justify-center",
+          isOver ? "border-primary/50 bg-primary/5 opacity-100" : "border-transparent opacity-0"
+        )}
+      >
+        <div className="text-center transition-opacity text-primary">
+          <p className="font-bold">여기로 드롭하여 세트에서 빼기</p>
+        </div>
+      </div>
+
+      {isEmpty && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="text-center p-8 text-gray-400 border-2 border-dashed border-white/10 rounded-xl bg-[#0d1414]/80 backdrop-blur-sm">
+            <p>루틴이 비어있습니다.</p>
+            <p className="text-sm mt-1">아래 버튼을 눌러 운동을 추가하세요.</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function BlockListRoot() {
   const { state, dispatch } = useRoutineEditor();
   const { blocks } = state;
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 8 } }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -87,20 +128,32 @@ export function BlockListRoot() {
       return;
     }
 
+    if (overId === "drop-root") {
+      dispatch({
+        type: "MOVE_BLOCK_TO_CONTAINER",
+        payload: { blockId: activeId, fromParentId, toParentId: undefined, toIndex: state.blocks.length },
+      });
+      return;
+    }
+
     const fromInfo = findBlockById(state.blocks, activeId, undefined);
     const overInfo = findBlockById(state.blocks, overId, undefined);
     if (!fromInfo || !overInfo) return;
 
     if (fromInfo.parentId !== overInfo.parentId) {
-      dispatch({
-        type: "MOVE_BLOCK_TO_CONTAINER",
-        payload: {
-          blockId: activeId,
-          fromParentId: fromInfo.parentId,
-          toParentId: overInfo.parentId,
-          toIndex: overInfo.index,
-        },
-      });
+      const isOverLoop = overInfo.block.type === "loop";
+
+      if (!isOverLoop) {
+        dispatch({
+          type: "MOVE_BLOCK_TO_CONTAINER",
+          payload: {
+            blockId: activeId,
+            fromParentId: fromInfo.parentId,
+            toParentId: overInfo.parentId,
+            toIndex: overInfo.index,
+          },
+        });
+      }
       return;
     }
 
@@ -130,7 +183,7 @@ export function BlockListRoot() {
         items={blocks.map((b) => b.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-3 pb-32">
+        <RootDropZone isEmpty={blocks.length === 0}>
           {blocks.map((block) =>
             block.type === "loop" ? (
               <BlockItem key={block.id} block={block}>
@@ -140,13 +193,7 @@ export function BlockListRoot() {
               <BlockItem key={block.id} block={block} />
             )
           )}
-          {blocks.length === 0 && (
-            <div className="text-center py-12 text-gray-300 border-2 border-dashed border-white/10 rounded-xl">
-              <p>루틴이 비어있습니다.</p>
-              <p className="text-sm mt-1">아래 버튼을 눌러 운동을 추가하세요.</p>
-            </div>
-          )}
-        </div>
+        </RootDropZone>
       </SortableContext>
     </DndContext>
   );

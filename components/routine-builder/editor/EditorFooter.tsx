@@ -1,31 +1,74 @@
 "use client";
 
-import { useRoutineEditor } from "./RoutineEditorContext";
+import { createRoutine } from "@/actions/routines";
+import { ExercisePicker } from "@/components/routine-builder/ExercisePicker";
+import type { ExerciseDef } from "@/lib/data/exercises";
 import { formatDuration } from "@/lib/utils/routine-calc";
-import { Plus, ListPlus, Timer, CheckCircle } from "lucide-react";
-import { v4 as uuidv4 } from "uuid";
 import { RoutineBlock } from "@/types/routine";
+import { CheckCircle, ListPlus, Loader2, Plus, Timer } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
+import { useRoutineEditor } from "./RoutineEditorContext";
 
-export function EditorFooter() {
+interface EditorFooterProps {
+  routineName: string;
+}
+
+export function EditorFooter({ routineName }: EditorFooterProps) {
+  const router = useRouter();
   const { state, dispatch } = useRoutineEditor();
   const { stats } = state;
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleAddExercise = () => {
+  const handleSave = async () => {
+    if (state.blocks.length === 0) {
+      toast.error("루틴에 운동을 하나 이상 추가해주세요.");
+      return;
+    }
+
+    setIsSaving(true);
+    const { data, error } = await createRoutine({
+      title: routineName || "나의 루틴",
+      estimated_time: stats.totalDuration,
+      total_sets: stats.totalSets,
+      structure_json: state.blocks,
+    });
+    setIsSaving(false);
+
+    if (error) {
+      toast.error("루틴 저장에 실패했습니다.");
+      console.error(error);
+      return;
+    }
+
+    toast.success("루틴이 성공적으로 저장되었습니다!");
+    // 추후 대시보드나 상세 페이지로 이동하도록 수정
+    router.push("/routines");
+  };
+
+  const handleExerciseSelect = (ex: ExerciseDef) => {
     const newBlock: RoutineBlock = {
       id: uuidv4(),
       type: "exercise",
-      title: "새 운동",
-      duration: 30,
+      title: ex.title,
+      duration: ex.defaultDuration,
       reps: 10,
+      color: "#f44336",
     };
     dispatch({ type: "ADD_BLOCK", payload: { block: newBlock } });
+    setIsPickerOpen(false);
   };
 
   const handleAddRest = () => {
     const newBlock: RoutineBlock = {
       id: uuidv4(),
       type: "rest",
+      title: "휴식",
       duration: 60,
+      color: "#4caf50",
     };
     dispatch({ type: "ADD_BLOCK", payload: { block: newBlock } });
   };
@@ -35,18 +78,23 @@ export function EditorFooter() {
     const newBlock: RoutineBlock = {
       id: uuidv4(),
       type: "loop",
+      title: "세트 그룹",
       repeat: 3,
+      color: "#2196f3",
       children: [
         {
           id: uuidv4(),
           type: "exercise",
           title: "반복 운동",
           duration: 20,
+          color: "#f44336",
         },
         {
           id: uuidv4(),
           type: "rest",
+          title: "휴식",
           duration: 10,
+          color: "#4caf50",
         },
       ],
     };
@@ -100,7 +148,7 @@ export function EditorFooter() {
           <div className="bg-[#1d2626] p-1.5 rounded-2xl flex items-center gap-2 shadow-[0_8px_16px_rgba(0,0,0,0.4)] border border-white/10">
             <button
               type="button"
-              onClick={handleAddExercise}
+              onClick={() => setIsPickerOpen(true)}
               className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#06e0ce]/15 hover:bg-[#06e0ce]/25 text-[#06e0ce] border border-[#06e0ce]/30 transition-all active:scale-95 group"
             >
               <Plus
@@ -138,11 +186,11 @@ export function EditorFooter() {
             </span>
             <div className="flex items-center gap-3 text-[9px]">
               <div className="flex items-center gap-1">
-                <div className="size-2 rounded-full bg-[#06e0ce] shadow-[0_0_6px_rgba(6,224,206,0.6)]" />
+                <div className="size-2 rounded-full bg-[#f44336] shadow-[0_0_6px_rgba(244,67,54,0.6)]" />
                 <span className="text-gray-400">운동</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="size-2 rounded-full bg-[#00e676] shadow-[0_0_6px_rgba(0,230,118,0.5)]" />
+                <div className="size-2 rounded-full bg-[#4caf50] shadow-[0_0_6px_rgba(76,175,80,0.5)]" />
                 <span className="text-gray-400">휴식</span>
               </div>
             </div>
@@ -161,17 +209,19 @@ export function EditorFooter() {
             {state.blocks.map((block) => {
               const duration =
                 block.type === "loop"
-                  ? (block.children?.reduce((acc, c) => acc + (c.duration ?? 0), 0) ?? 0) * block.repeat
-                  : (block.duration ?? 0);
+                  ? (block.children?.reduce((acc, c) => acc + (c.type !== "loop" ? c.duration : 0), 0) ?? 0) * block.repeat
+                  : block.duration;
               const widthPercent = (duration / (stats.totalDuration || 1)) * 100;
               const safeWidth = Math.max(widthPercent, 2);
+
+              const blockColor = block.color || (block.type === "exercise" ? "#f44336" : block.type === "rest" ? "#4caf50" : "#2196f3");
 
               if (block.type === "exercise") {
                 return (
                   <div
                     key={block.id}
-                    className="bg-[#06e0ce] rounded-t-sm transition-all duration-300 shadow-[0_0_8px_rgba(6,224,206,0.5)] z-10"
-                    style={{ width: `${safeWidth}%`, height: "60%" }}
+                    className="rounded-t-sm transition-all duration-300 shadow-[0_0_8px_rgba(6,224,206,0.5)] z-10"
+                    style={{ width: `${safeWidth}%`, height: "60%", backgroundColor: blockColor }}
                   />
                 );
               }
@@ -179,8 +229,8 @@ export function EditorFooter() {
                 return (
                   <div
                     key={block.id}
-                    className="bg-[#00e676] rounded-t-sm transition-all duration-300 shadow-[0_0_6px_rgba(0,230,118,0.4)] z-10"
-                    style={{ width: `${safeWidth}%`, height: "30%" }}
+                    className="rounded-t-sm transition-all duration-300 shadow-[0_0_6px_rgba(0,230,118,0.4)] z-10"
+                    style={{ width: `${safeWidth}%`, height: "30%", backgroundColor: blockColor }}
                   />
                 );
               }
@@ -188,8 +238,8 @@ export function EditorFooter() {
                 return (
                   <div
                     key={block.id}
-                    className="bg-[#06e0ce]/70 rounded-t-sm transition-all duration-300 border-t-2 border-[#06e0ce] z-10"
-                    style={{ width: `${safeWidth}%`, height: "50%" }}
+                    className="rounded-t-sm transition-all duration-300 border-t-2 z-10 opacity-70"
+                    style={{ width: `${safeWidth}%`, height: "50%", backgroundColor: blockColor, borderColor: blockColor }}
                   />
                 );
               }
@@ -199,13 +249,28 @@ export function EditorFooter() {
         </div>
 
         {/* 완료 버튼 */}
-        <button className="w-full h-[56px] bg-[#06e0ce] hover:opacity-90 active:scale-[0.99] transition-all rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(6,224,206,0.4)] group">
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={isSaving}
+          className="w-full h-[56px] bg-[#06e0ce] hover:opacity-90 active:scale-[0.99] disabled:opacity-50 disabled:active:scale-100 transition-all rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(6,224,206,0.4)] group"
+        >
           <span className="text-[#0d1414] font-bold text-base mr-2">
-            루틴 생성 완료
+            {isSaving ? "저장 중..." : "루틴 생성 완료"}
           </span>
-          <CheckCircle className="text-[#0d1414] group-hover:translate-x-1 transition-transform" />
+          {isSaving ? (
+            <Loader2 className="animate-spin text-[#0d1414]" size={20} />
+          ) : (
+            <CheckCircle className="text-[#0d1414] group-hover:translate-x-1 transition-transform" />
+          )}
         </button>
       </div>
+
+      <ExercisePicker
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelect={handleExerciseSelect}
+      />
     </div>
   );
 }

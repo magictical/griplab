@@ -11,6 +11,7 @@ import { GuestChartSection } from "@/components/home/GuestChartSection";
 import { GuestRoutineButton } from "@/components/home/GuestRoutineButton";
 import { GuestTierSection } from "@/components/home/GuestTierSection";
 import { HeroSection } from "@/components/home/HeroSection";
+import { HomeRoutineActions } from "@/components/home/HomeRoutineActions";
 import { MetricGrid } from "@/components/home/MetricGrid";
 import { RoutineFAB } from "@/components/home/RoutineFAB";
 import { StatsChart } from "@/components/home/StatsChart";
@@ -70,6 +71,7 @@ export default async function Home() {
             currentStreak={metrics.currentStreak}
             bestStreak={undefined}
           />
+          <HomeRoutineActions />
           <StatsChart initialData={[]} initialPeriod="1M" />
           <MetricGrid metrics={metrics} />
         </div>
